@@ -18,7 +18,7 @@ class Room {
   foamWidth: FoamWidth;
   cornerLength: CornerLength;
   insulationArea: InsulationArea;
-  floortType: FloorType;
+  floorType: FloorType;
 
   constructor(
     wallLengths: number[],
@@ -31,7 +31,7 @@ class Room {
     foamWidth: FoamWidth,
     cornerLength: CornerLength,
     insulationArea: InsulationArea,
-    floortType: FloorType
+    floorType: FloorType
   ) {
     this.wallLengths = wallLengths;
     this.concreteWidths = concreteWidths;
@@ -43,7 +43,8 @@ class Room {
     this.foamWidth = foamWidth;
     this.cornerLength = cornerLength;
     this.insulationArea = insulationArea;
-    this.floortType = floortType;
+    this.floorType = floorType;
+    console.log("inside room", nTJoints);
   }
 }
 

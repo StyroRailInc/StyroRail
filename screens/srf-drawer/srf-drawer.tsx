@@ -73,6 +73,7 @@ const SRFDrawer: React.FC = () => {
     if (!isMount && foundationState.isRoomChange) {
       changeRoom(foundationState, inputState, settingsState, visibilityState);
     }
+    console.log("hello", foundationState.foundations);
   }, [foundationState.roomPressedIndex]);
 
   useEffect(() => {
@@ -93,7 +94,7 @@ const SRFDrawer: React.FC = () => {
   };
 
   const handleAddFoundationPress = () => {
-    addFoundation(foundationState, settingsState, visibilityState);
+    addFoundation(foundationState, settingsState);
   };
 
   const handleTJointPress = () => {

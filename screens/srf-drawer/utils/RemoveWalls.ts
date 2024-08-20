@@ -39,7 +39,9 @@ const updateTJoints = (
   filteredTJoints = filterTJointsUpToIndex(wallIndex, foundationState.tJointAngles).filteredTJoints;
   foundationState.setTJointAngles(filteredTJoints);
 
-  foundationState.nTJoints.current -= countDeleted;
+  foundationState.nTJoints.current = foundationState.nTJoints.current - countDeleted;
+
+  console.log(foundationState.nTJoints.current, "delete", countDeleted);
 };
 
 const updateVisibilityState = (
@@ -71,6 +73,8 @@ const updateInputState = (
     inputState.setAngleInput(0);
     inputState.setPreviousAngle(0);
     inputState.setIsFirstWall(true);
+    inputState.setIsTJoint(false);
+    inputState.setPreviousCornerIsTJoint(false);
   }
 };
 

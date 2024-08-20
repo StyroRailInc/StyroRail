@@ -21,6 +21,7 @@ import { Constants } from "@/constants";
 import { computeTotalLinearFeetPerHeight } from "@/utils/ComputeTotalLinearFeetPerHeight";
 import { inchesToFeet, parseInput } from "@/utils/InputParser";
 import { parseIntegerInput } from "@/utils/InputParser";
+import { addExtraPanels } from "./utils/ResultsFunctions";
 
 export const addHeight = (
   inputState: InputState,
@@ -75,6 +76,7 @@ export const calculatePanelResults = (
   settingsState: SettingsState,
   visibilityState: VisibilityState,
   heights: Heights,
+  percentagePanelsIncrease: React.MutableRefObject<number>,
   setPanelResults: React.Dispatch<SetStateAction<FoundationPanels>>
 ) => {
   try {
@@ -87,7 +89,13 @@ export const calculatePanelResults = (
         settingsState.chooseFillersPercentage
       );
       foundation.computeFoundation();
-      setPanelResults(foundation.panels);
+      if (settingsState.choosePercentageExtraMin) {
+        const { newPanels, percentageIncrease } = addExtraPanels(foundation.panels, settingsState);
+        setPanelResults(newPanels);
+        percentagePanelsIncrease.current = percentageIncrease.current;
+      } else {
+        setPanelResults(foundation.panels);
+      }
       inputState.setNElastics(
         Math.ceil(foundation.nTotalCorners / Constants.N_ELASTICS_PER_CORNER)
       );
@@ -98,14 +106,15 @@ export const calculatePanelResults = (
 export const getFormData = (
   settingsState: SettingsState,
   inputState: InputState,
-  panelResults: FoundationPanels
+  panelResults: FoundationPanels,
+  percentagePanelsIncrease: React.MutableRefObject<number>
 ) => {
   return {
     panels: panelResults,
     foamWidth: settingsState.foamWidth,
     cornerLength: settingsState.cornerLength,
     nElastics: inputState.nElastics,
-    percentageIncrease: "Non Calculé",
+    percentageIncrease: percentagePanelsIncrease.current,
     totalLinearFeet: computeTotalLinearFeetPerHeight(panelResults),
   };
 };

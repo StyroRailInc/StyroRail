@@ -1,5 +1,5 @@
 // React imports
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 
 // Components
@@ -36,6 +36,7 @@ const LinearSRF: React.FC = () => {
   const [heights, setHeights] = useState<Heights>({});
   const [panelResults, setPanelResults] = useState<FoundationPanels>({});
   const [heightRowPressedIndex, setHeightRowPressedIndex] = useState<number | null>(null);
+  const percentagePanelsIncrease = useRef<number>(0);
 
   const [appScreenWidth, setAppScreenWidth] = useState<number>(0);
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -51,7 +52,14 @@ const LinearSRF: React.FC = () => {
 
   useEffect(() => {
     if (!isMount) {
-      calculatePanelResults(inputState, settingsState, visibilityState, heights, setPanelResults);
+      calculatePanelResults(
+        inputState,
+        settingsState,
+        visibilityState,
+        heights,
+        percentagePanelsIncrease,
+        setPanelResults
+      );
     }
   }, [visibilityState.isResultVisible]);
 
@@ -136,7 +144,12 @@ const LinearSRF: React.FC = () => {
           {visibilityState.isResultVisible && (
             <View style={styles.form}>
               <Form
-                data={getFormData(settingsState, inputState, panelResults)}
+                data={getFormData(
+                  settingsState,
+                  inputState,
+                  panelResults,
+                  percentagePanelsIncrease
+                )}
                 route={Constants.SEND_EMAIL_URL}
               />
             </View>

@@ -93,7 +93,8 @@ export const addWall = (
         [index]: angleToTJointAngles(inputState),
       }));
 
-      ++foundationState.nTJoints.current;
+      foundationState.nTJoints.current = foundationState.nTJoints.current + 1;
+      console.log("added", foundationState.nTJoints.current);
 
       inputState.setAngleInput(inputState.previousAngle);
       inputState.setPreviousCornerIsTJoint(true);
@@ -124,11 +125,7 @@ export const addWall = (
   } catch (error) {}
 };
 
-export const addFoundation = (
-  foundationState: FoundationState,
-  settingsState: SettingsState,
-  visibilityState: VisibilityState
-) => {
+export const addFoundation = (foundationState: FoundationState, settingsState: SettingsState) => {
   try {
     foundationState.setFoundations((prevFoundations) => [
       ...prevFoundations.map((foundation, index) =>
@@ -140,7 +137,6 @@ export const addFoundation = (
     ]);
     foundationState.setIsRoomChange(true);
     foundationState.setRoomPressedIndex(foundationState.foundations.length);
-    visibilityState.setIsFloorTypeDropdownVisible(false);
     settingsState.setFloorType(FloorType.NONE);
   } catch (error) {
     if (error instanceof Error) {
@@ -180,15 +176,8 @@ export const changeRoom = (
       }
     }
 
-    removeWalls(foundationState, inputState, visibilityState, 0);
-
-    foundationState.setWallRowPressedIndex(null);
-    foundationState.nTJoints.current = 0;
-    inputState.setWallLengthInput("");
-    inputState.setConcreteWidthInput(settingsState.defaultConcreteWidth);
-    inputState.setWallHeightInput(settingsState.defaultWallHeight);
-
     if (foundation !== null) {
+      console.log("tjoins number", foundation.room.nTJoints);
       // Update each state property using their respective setters
       foundationState.setWallLengths(foundation.room.wallLengths);
       foundationState.setWallHeights(foundation.room.wallHeights);
@@ -200,7 +189,7 @@ export const changeRoom = (
       settingsState.setCornerLength(foundation.room.cornerLength);
       settingsState.setFoamWidth(foundation.room.foamWidth);
       settingsState.setInsulationArea(foundation.room.insulationArea);
-      settingsState.setFloorType(foundation.room.floortType);
+      settingsState.setFloorType(foundation.room.floorType);
 
       const currentIndex = foundation.room.wallLengths.length;
       if (currentIndex !== 0) {
@@ -208,14 +197,28 @@ export const changeRoom = (
         inputState.setPreviousAngle(foundation.room.angles[currentIndex - 1]);
         inputState.setIsFirstWall(false);
         visibilityState.setIsCalculateButtonVisible(true);
+        if (!previousCornerIsTJoint(currentIndex, foundation.room.tJoints)) {
+          visibilityState.setIsTJointButtonVisible(true);
+        } else {
+          inputState.setPreviousCornerIsTJoint(true);
+        }
       } else {
         inputState.setAngleInput(0);
+        inputState.setIsTJoint(false);
+        inputState.setPreviousCornerIsTJoint(false);
         inputState.setPreviousAngle(0);
         inputState.setIsFirstWall(true);
         visibilityState.setIsCalculateButtonVisible(false);
       }
+
+      inputState.setWallLengthInput("");
     } else {
       removeWalls(foundationState, inputState, visibilityState, 0);
+
+      foundationState.setWallRowPressedIndex(null);
+      inputState.setWallLengthInput("");
+      inputState.setConcreteWidthInput(settingsState.defaultConcreteWidth);
+      inputState.setWallHeightInput(settingsState.defaultWallHeight);
     }
   }
 };
@@ -223,6 +226,7 @@ export const changeRoom = (
 // Called when a wall has been pressed
 export const updateWallInput = (foundationState: FoundationState, inputState: InputState) => {
   if (foundationState.wallRowPressedIndex !== null) {
+    console.log(foundationState.nTJoints);
     if (foundationState.wallRowPressedIndex === 0) {
       inputState.setPreviousCornerIsTJoint(false);
       inputState.setIsFirstWall(true);
@@ -334,7 +338,6 @@ export const computeAngleDifferences = (
         differences.push(allAngles[i] - allAngles[i - 1]);
       }
     }
-
     setInitialAngleDifferences(differences);
   }
 };

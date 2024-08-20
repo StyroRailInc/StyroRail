@@ -13,6 +13,10 @@ const useSettingsState = () => {
   const [insulationArea, setInsulationArea] = useState<InsulationArea>(InsulationArea.INSIDE);
   const [fillersPercentage, setFillersPercentage] = useState<string>(Constants.FILLERS_PERCENTAGE);
   const [chooseFillersPercentage, setChooseFillersPercentage] = useState<boolean>(false);
+  const [percentageExtraMin, setPercentageExtraMin] = useState<string>(
+    Constants.PERCENTAGE_EXTRA_MIN
+  );
+  const [choosePercentageExtraMin, setChoosePercentageExtraMin] = useState<boolean>(true);
 
   return {
     foamWidth,
@@ -25,6 +29,10 @@ const useSettingsState = () => {
     setFillersPercentage,
     chooseFillersPercentage,
     setChooseFillersPercentage,
+    percentageExtraMin,
+    setPercentageExtraMin,
+    choosePercentageExtraMin,
+    setChoosePercentageExtraMin,
   };
 };
 

@@ -30,6 +30,7 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFillersPercentageVisible, setIsFillersPercentageVisible] = useState(false);
+  const [isPercentageExtraMinVisible, setIsPercentageExtraMinVisible] = useState(true);
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
 
   const handleDropdownToggle = (index: number) => {
@@ -49,6 +50,11 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
     visibilityState.setIsResultVisible(false);
     setIsFillersPercentageVisible(settingsState.chooseFillersPercentage);
   }, [settingsState.fillersPercentage, settingsState.chooseFillersPercentage]);
+
+  useEffect(() => {
+    visibilityState.setIsResultVisible(false);
+    setIsPercentageExtraMinVisible(settingsState.choosePercentageExtraMin);
+  }, [settingsState.percentageExtraMin, settingsState.choosePercentageExtraMin]);
 
   return (
     <View style={styles.container}>
@@ -118,6 +124,40 @@ const SettingsComponent: React.FC<SettingsComponentProps> = ({
                 }}
               />
             </View>
+
+            <View style={styles.optionsContainer}>
+              <View style={styles.checkboxWrapper}>
+                <ResponsiveText title="Panneaux surplus" size={Constants.FONT_SIZE} />
+                <CheckBox
+                  size={Constants.FONT_SIZE}
+                  isSelected={settingsState.choosePercentageExtraMin}
+                  handlePress={() => {
+                    settingsState.setChoosePercentageExtraMin(
+                      !settingsState.choosePercentageExtraMin
+                    );
+                    visibilityState.setIsResultVisible(false);
+                  }}
+                />
+              </View>
+
+              {isPercentageExtraMinVisible && (
+                <View style={[styles.fillersPercentageWrapper, { zIndex: 0 }]}>
+                  <ResponsiveText
+                    title="Pourcentage"
+                    size={Constants.FONT_SIZE}
+                    style={styles.labelStyle}
+                  />
+                  <ResponsiveInput
+                    title=""
+                    size={Constants.FONT_SIZE}
+                    input={settingsState.percentageExtraMin}
+                    setInput={settingsState.setPercentageExtraMin}
+                    inputStyle={styles.inputWrapper}
+                  />
+                </View>
+              )}
+            </View>
+
             <View style={styles.optionsContainer}>
               <View style={styles.checkboxWrapper}>
                 <ResponsiveText title="Choisir % fillers" size={Constants.FONT_SIZE} />

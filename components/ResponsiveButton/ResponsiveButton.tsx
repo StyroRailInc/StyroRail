@@ -1,22 +1,11 @@
-// React imports
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, Pressable, ViewStyle } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-
-// Component
 import ResponsiveText from "@/components/ResponsiveText";
-
-// Utility function
 import calculateSize from "@/utils/CalculateSize";
-
-// Custom hook
 import useDimensionsEffect from "@/hooks/useDimensions";
-
-// Constants
 import { Constants } from "@/constants";
-
-// Animation
 import fade from "@/animations/fade";
 
 interface ResponsiveButtonProps {
@@ -49,6 +38,11 @@ const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
     [setIconSize, (width, size) => calculateSize(width, size), minIconSize],
   ]);
 
+  const handlePressWrapper = (event: any) => {
+    event.preventDefault();
+    handlePress();
+  };
+
   return (
     <Animated.View style={[styles.animatedContainer, animatedStyle]}>
       <Pressable
@@ -57,7 +51,7 @@ const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
           style,
           { opacity: pressed ? Constants.HALF_OPACITY : Constants.FULL_OPACITY },
         ]}
-        onPress={handlePress}
+        onPress={handlePressWrapper}
       >
         {iconName === undefined && (
           <ResponsiveText
@@ -83,6 +77,7 @@ const styles = StyleSheet.create({
   animatedContainer: {
     width: "100%",
     alignItems: "center",
+    userSelect: "none",
   },
   button: {
     backgroundColor: "#00aaef",
@@ -91,6 +86,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    userSelect: "none",
   },
 });
 
