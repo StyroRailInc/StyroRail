@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     right: 10,
     top: 10,
   },
-  tJoint: { position: "absolute", left: 10, top: 10, width: 40 },
+  tJoint: { position: "absolute", left: 10, top: 10, width: 30 },
   arrows: {
     flexDirection: "row",
     width: "100%",

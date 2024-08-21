@@ -243,7 +243,9 @@ export const computePanelResults = (foundationState: FoundationState): Foundatio
         if (Object.keys(foundation.panels).length === 0) {
           try {
             foundation.computeFoundation();
-          } catch (error) {}
+          } catch (error) {
+            console.log(error);
+          }
         }
         for (let height in foundation.panels) {
           const panelHeight = parseInt(height);

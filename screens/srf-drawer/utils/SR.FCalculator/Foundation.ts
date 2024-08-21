@@ -170,6 +170,7 @@ class Foundation {
   }
 
   computePanels = (wall: Wall) => {
+    this.addWallHeight(wall.height);
     if (this.isValidWallLength(wall.length)) {
       const adjustWallLength = (wall: Wall, corner: CornerSpecifications): number => {
         if (corner.corner === Corner.OUTSIDE) {
@@ -209,8 +210,6 @@ class Foundation {
           Panel.THREE,
           Panel.TWO,
         ];
-
-        this.addWallHeight(wall.height);
 
         for (const panel of panelTypes) {
           const numPanels = Math.floor(remainingLength / panel);
