@@ -144,7 +144,9 @@ const calculateAndAdjustExtraPanelsPercentage = (
       );
     } else {
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log("There has been an error");
+  }
 };
 
 const computeMissingPanels = (

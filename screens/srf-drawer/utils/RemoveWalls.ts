@@ -39,7 +39,7 @@ const updateTJoints = (
   filteredTJoints = filterTJointsUpToIndex(wallIndex, foundationState.tJointAngles).filteredTJoints;
   foundationState.setTJointAngles(filteredTJoints);
 
-  foundationState.nTJoints.current = foundationState.nTJoints.current - countDeleted;
+  foundationState.setNTJoints(foundationState.nTJoints - countDeleted);
 };
 
 const updateVisibilityState = (

@@ -27,7 +27,9 @@ export const calculateEndpoint = (
 export const getValidatedWallLength = (inputState: InputState): number | null => {
   try {
     return parseInput(inputState.wallLengthInput, true);
-  } catch (error) {}
+  } catch (error) {
+    console.log("There has been an error");
+  }
   return null;
 };
 

@@ -45,7 +45,9 @@ export const addHeight = (
     } else {
       visibilityState.setIsCalculateButtonVisible(false);
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log("There has been an error");
+  }
 };
 
 export const updateHeightInput = (
@@ -100,7 +102,9 @@ export const calculatePanelResults = (
         Math.ceil(foundation.nTotalCorners / Constants.N_ELASTICS_PER_CORNER)
       );
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log("There has been an error");
+  }
 };
 
 export const getFormData = (

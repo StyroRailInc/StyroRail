@@ -93,7 +93,7 @@ export const addWall = (
         [index]: angleToTJointAngles(inputState),
       }));
 
-      foundationState.nTJoints.current = foundationState.nTJoints.current + 1;
+      foundationState.setNTJoints(foundationState.nTJoints + 1);
 
       inputState.setAngleInput(inputState.previousAngle);
       inputState.setPreviousCornerIsTJoint(true);
@@ -121,7 +121,9 @@ export const addWall = (
 
     visibilityState.setIsTJointButtonVisible(true);
     visibilityState.setIsResultVisible(false);
-  } catch (error) {}
+  } catch (error) {
+    console.log("There has been an error");
+  }
 };
 
 export const addFoundation = (foundationState: FoundationState, settingsState: SettingsState) => {
@@ -138,9 +140,7 @@ export const addFoundation = (foundationState: FoundationState, settingsState: S
     foundationState.setRoomPressedIndex(foundationState.foundations.length);
     settingsState.setFloorType(FloorType.NONE);
   } catch (error) {
-    if (error instanceof Error) {
-    } else {
-    }
+    console.log("There has been an error");
   }
 };
 
@@ -183,7 +183,7 @@ export const changeRoom = (
       foundationState.setAngles(foundation.room.angles);
       foundationState.setTJoints(foundation.room.tJoints);
       foundationState.setTJointAngles(foundation.room.tJointAngles);
-      foundationState.nTJoints.current = foundation.room.nTJoints;
+      foundationState.setNTJoints(foundation.room.nTJoints);
       settingsState.setCornerLength(foundation.room.cornerLength);
       settingsState.setFoamWidth(foundation.room.foamWidth);
       settingsState.setInsulationArea(foundation.room.insulationArea);
@@ -306,9 +306,7 @@ export const createAndSetFoundations = (
       foundationState.setWallRowPressedIndex(null);
     }
   } catch (error) {
-    if (error instanceof Error) {
-    } else {
-    }
+    console.log("There has been an error");
   }
 };
 
@@ -327,8 +325,7 @@ export const computeAngleDifferences = (
     const startIndex =
       foundationState.wallRowPressedIndex + 1 + nTJointsBeforeIndex * Constants.N_WALLS_PER_T_JOINT;
     const endIndex =
-      foundationState.angles.length +
-      foundationState.nTJoints.current * Constants.N_WALLS_PER_T_JOINT;
+      foundationState.angles.length + foundationState.nTJoints * Constants.N_WALLS_PER_T_JOINT;
 
     for (let i = startIndex; i < endIndex; i++) {
       if (i > 0) {
@@ -416,7 +413,7 @@ const createRoom = (foundationState: FoundationState, settingsState: SettingsSta
     foundationState.angles,
     foundationState.tJoints,
     foundationState.tJointAngles,
-    foundationState.nTJoints.current,
+    foundationState.nTJoints,
     settingsState.foamWidth,
     settingsState.cornerLength,
     settingsState.insulationArea,

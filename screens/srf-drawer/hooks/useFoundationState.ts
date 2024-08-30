@@ -15,8 +15,7 @@ const useFoundationState = () => {
   const [angles, setAngles] = useState<number[]>([]);
   const [tJoints, setTJoints] = useState<TJoints>({});
   const [tJointAngles, setTJointAngles] = useState<TJointAngles>({});
-  const nTJoints = useRef(0);
-  const [setNTjoints, NTJoints] = useState(0);
+  const [nTJoints, setNTJoints] = useState(0);
 
   // States
   const [wallRowPressedIndex, setWallRowPressedIndex] = useState<number | null>(null);
@@ -56,8 +55,7 @@ const useFoundationState = () => {
     tJointAngles,
     setTJointAngles,
     nTJoints,
-    setNTjoints,
-    NTJoints,
+    setNTJoints,
     foundations,
     setFoundations,
     panelResults,
