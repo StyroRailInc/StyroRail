@@ -37,7 +37,6 @@ import {
   computeAngleDifferences,
   adjustAngles,
 } from "./helpers";
-import { FloorType } from "@/utils/enums";
 
 const SRFDrawer: React.FC = () => {
   const isMount = useIsMount();
@@ -73,7 +72,6 @@ const SRFDrawer: React.FC = () => {
     if (!isMount && foundationState.isRoomChange) {
       changeRoom(foundationState, inputState, settingsState, visibilityState);
     }
-    console.log("hello", foundationState.foundations);
   }, [foundationState.roomPressedIndex]);
 
   useEffect(() => {

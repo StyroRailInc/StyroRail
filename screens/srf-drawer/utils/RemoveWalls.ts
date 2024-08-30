@@ -40,8 +40,6 @@ const updateTJoints = (
   foundationState.setTJointAngles(filteredTJoints);
 
   foundationState.nTJoints.current = foundationState.nTJoints.current - countDeleted;
-
-  console.log(foundationState.nTJoints.current, "delete", countDeleted);
 };
 
 const updateVisibilityState = (

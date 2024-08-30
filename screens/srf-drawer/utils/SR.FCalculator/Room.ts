@@ -44,7 +44,6 @@ class Room {
     this.cornerLength = cornerLength;
     this.insulationArea = insulationArea;
     this.floorType = floorType;
-    console.log("inside room", nTJoints);
   }
 }
 

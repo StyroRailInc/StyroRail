@@ -74,12 +74,12 @@ export enum Panel {
 export enum AdjustmentFormula {
   ONE, // +-(PC + NC)
   TWO, // +-(PC - (NC - CC) * SQRT2 + CC / 2.41) || +-(NC - (PC - CC) * SQRT2 + CC / 2.41)
-  THREE, // +-(PC + (NC - CC) * SQRT2 + CC / 2.41) || // +-(NC + (PC - CC) * SQRT2 + CC / 2.41)
-  FOUR, // +-CC
-  FIVE, // +-(PC )
-  SIX,
-  SEVEN,
-  EIGHT,
+  THREE, // +-(PC + (NC - CC) * SQRT2 + CC / 2.41) || +-(NC + (PC - CC) * SQRT2 + CC / 2.41)
+  FOUR, // -(PC * 2.41) || -(NC * 2.41)
+  FIVE, // +-((PC - CC) * SQRT2 + CC / 2.41 + (NC - CC) * SQRT2 + CC / 2.41)
+  SIX, // +-((PC - CC) * SQRT2 + CC / 2.41) || +-((NC - CC) * SQRT2 + CC / 2.41)
+  SEVEN, // +-(PC - NC)
+  EIGHT, // +-((PC - CC) * SQRT2 + CC / 2.41 - ((NC - CC) * SQRT2 + CC / 2.41))
   NONE,
 }
 

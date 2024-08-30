@@ -94,7 +94,6 @@ export const addWall = (
       }));
 
       foundationState.nTJoints.current = foundationState.nTJoints.current + 1;
-      console.log("added", foundationState.nTJoints.current);
 
       inputState.setAngleInput(inputState.previousAngle);
       inputState.setPreviousCornerIsTJoint(true);
@@ -177,7 +176,6 @@ export const changeRoom = (
     }
 
     if (foundation !== null) {
-      console.log("tjoins number", foundation.room.nTJoints);
       // Update each state property using their respective setters
       foundationState.setWallLengths(foundation.room.wallLengths);
       foundationState.setWallHeights(foundation.room.wallHeights);
@@ -226,7 +224,6 @@ export const changeRoom = (
 // Called when a wall has been pressed
 export const updateWallInput = (foundationState: FoundationState, inputState: InputState) => {
   if (foundationState.wallRowPressedIndex !== null) {
-    console.log(foundationState.nTJoints);
     if (foundationState.wallRowPressedIndex === 0) {
       inputState.setPreviousCornerIsTJoint(false);
       inputState.setIsFirstWall(true);
