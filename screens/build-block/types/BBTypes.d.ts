@@ -7,9 +7,9 @@ export type Opening = {
 };
 
 export type BlockType =
-  | "Straight"
-  | "90Corner"
-  | "45Corner"
-  | "DoubleTaperTop"
-  | "BrickLedge"
-  | "Buck";
+  | "straight"
+  | "ninetyCorner"
+  | "fortyFiveCorner"
+  | "doubleTaperTop"
+  | "brickLedge"
+  | "buck";

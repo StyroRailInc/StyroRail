@@ -1,9 +1,9 @@
 // Type
-import { Opening, Width } from "../../types/BBTypes";
+import { BlockType, Opening, Width } from "../../types/BBTypes";
 
 class Wall {
   // Wall dimensions
-  private height: string = "";
+  private height: number = 0;
   private length: number = 0;
   private width: Width | null = null;
 
@@ -16,9 +16,21 @@ class Wall {
   // Windows and doors dimensions
   private openings: Opening[] = [];
 
+  private nBucks: number = 0;
+
+  // Quantity
+  // private nBlocks:
+
   constructor() {}
 
-  setHeight(height: string) {
+  computeWall() {
+    let remainingSurface = this.length * this.height;
+    for (let opening of this.openings) {
+      const openingPerimeter = (opening.height + opening.width) * 2;
+    }
+  }
+
+  setHeight(height: number) {
     this.height = height;
   }
 
@@ -50,7 +62,7 @@ class Wall {
     this.openings = openings;
   }
 
-  getHeight(): string {
+  getHeight(): number {
     return this.height;
   }
 
