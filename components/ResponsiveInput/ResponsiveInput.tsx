@@ -26,10 +26,8 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   inputStyle,
   setInput,
 }) => {
-  const adjustedFontSize: number = calculateSize(Dimensions.get("window").width, size);
-
   const [fontSize, setFontSize] = useState<number>(
-    Math.max(Constants.MIN_FONT_SIZE, adjustedFontSize)
+    Math.max(Constants.MIN_FONT_SIZE, calculateSize(Dimensions.get("window").width, size))
   );
 
   useDimensionsEffect(size, [

@@ -27,8 +27,6 @@ import {
   strokeColor,
 } from "./helpers";
 
-const { width, height } = Dimensions.get("window");
-
 interface LineDrawerProps {
   inputState: InputState;
   foundationState: FoundationState;
@@ -38,10 +36,10 @@ export const LineDrawer: React.FC<LineDrawerProps> = ({ inputState, foundationSt
   const [lines, setLines] = useState<React.JSX.Element[]>([]);
 
   const [drawingWindowHeight, setDrawingWindowHeight] = useState<number>(
-    width * Constants.DRAWING_WINDOW_SCREEN_HEIGHT_PERCENTAGE
+    Dimensions.get("window").width * Constants.DRAWING_WINDOW_SCREEN_HEIGHT_PERCENTAGE
   );
   const [drawingWindowWidth, setDrawingWindowWidth] = useState<number>(
-    width * Constants.APP_SCREEN_WIDTH_PERCENTAGE
+    Dimensions.get("window").width * Constants.APP_SCREEN_WIDTH_PERCENTAGE
   );
 
   useWindowDimensions(Constants.APP_SCREEN_WIDTH_PERCENTAGE, setDrawingWindowWidth);

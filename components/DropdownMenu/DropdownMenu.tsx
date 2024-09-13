@@ -70,10 +70,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       </Pressable>
       {isDropdownMenuOpen && (
         <View style={[styles.dropdown, { maxHeight: maxDropdownHeight }]}>
-          <ScrollView
-            style={[styles.scrollContainer]} // Ensure a max height or flex is provided
-            nestedScrollEnabled={true}
-          >
+          <ScrollView style={[styles.scrollContainer]} nestedScrollEnabled={true}>
             {options.map((option, index) => {
               const isSelected = option === selectedOptionText;
               return !isSelected ? (
