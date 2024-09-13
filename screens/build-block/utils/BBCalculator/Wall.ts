@@ -18,17 +18,16 @@ class Wall {
 
   // Windows and doors dimensions
   private openings: Opening[] = [];
-
-  private nBucks: number = 0;
-
-  private nCourse: number = 0;
-
-  // Quantity
-  // private nBlocks:
+  private nCourses: number = 0;
 
   constructor() {}
 
-  computeWall() {
+  computeNCourses() {
+    this.nCourses = this.height / 16;
+  }
+
+  computeWall(): Record<BlockType, number> {
+    this.computeNCourses();
     let remainingSurfaceArea = this.length * this.height;
     let openingPerimeter = 0;
 
@@ -39,10 +38,26 @@ class Wall {
       remainingSurfaceArea -= openingSurfaceArea;
     }
 
-    this.nBucks += openingPerimeter / getBlockSpecifications("buck", this.width).length;
-
     remainingSurfaceArea -=
-      this.nInsideCorners * getBlockSpecifications("ninetyCorner", this.width).surfaceArea;
+      (this.nInsideCorners * getBlockSpecifications("ninetyCorner", this.width).surfaceArea.int +
+        this.nOutsideCorners * getBlockSpecifications("ninetyCorner", this.width).surfaceArea.ext +
+        this.n45InsideCorners *
+          getBlockSpecifications("fortFiveCorner", this.width).surfaceArea.int +
+        this.n45OutsideCorners *
+          getBlockSpecifications("fortFiveCorner", this.width).surfaceArea.ext) *
+      this.nCourses;
+
+    const blockQuantities: Record<BlockType, number> = {
+      straight:
+        remainingSurfaceArea / getBlockSpecifications("straight", this.width).surfaceArea.ext,
+      ninetyCorner: (this.nInsideCorners + this.nOutsideCorners) * this.nCourses,
+      fortyFiveCorner: (this.n45InsideCorners + this.n45OutsideCorners) * this.nCourses,
+      doubleTaperTop: 0,
+      brickLedge: 0,
+      buck: openingPerimeter / getBlockSpecifications("buck", this.width).length.ext,
+    };
+
+    return blockQuantities;
   }
 
   setHeight(height: number) {

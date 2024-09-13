@@ -25,28 +25,24 @@ describe("Wall - computeWall method", () => {
   });
 
   it("should correctly compute the remaining surface area and the number of bucks", () => {
-    // Set wall dimensions
-    wall.setHeight(10); // Set height to 10 units
-    wall.setLength(20); // Set length to 20 units
+    wall.setHeight(10);
+    wall.setLength(20);
 
-    // Set openings (windows/doors)
     wall.setOpenings([
-      { height: 2, width: 3, quantity: 2 }, // Two openings of 2x3 units
+      { height: 2, width: 3, quantity: 2 },
+      { height: 4, width: 3, quantity: 1 },
     ]);
 
-    // Set the number of inside corners
-    wall.setInsideCorners(1); // Set one inside corner
+    wall.setInsideCorners(2);
 
-    // Call computeWall to perform the calculation
     wall.computeWall();
 
-    // Expected calculations
     const expectedRemainingSurfaceArea =
       20 * 10 - // total wall surface
-      2 * 3 * 2 - // subtract surface area of openings
+      (2 * 3 * 2 + 4 * 3) - // subtract surface area of openings
       1 * 32; // subtract surface area of inside corner (mocked value)
 
-    const expectedBucks = (2 * (2 + 3) * 2) / 24; // Opening perimeter divided by buck length (mocked value)
+    const expectedBucks = (2 * (2 + 3) * 2 + 2 * (4 + 3)) / 24; // Opening perimeter divided by buck length (mocked value)
 
     // Assertions
     expect(wall["nBucks"]).toBeCloseTo(expectedBucks); // Check if bucks were calculated correctly
