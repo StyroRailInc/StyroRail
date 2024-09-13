@@ -1,11 +1,14 @@
 // Type
 import { BlockType, Opening, Width } from "../../types/BBTypes";
 
+// Utility function
+import getBlockSpecifications from "../BlockSpecifications";
+
 class Wall {
   // Wall dimensions
   private height: number = 0;
   private length: number = 0;
-  private width: Width | null = null;
+  private width: Width = '8"';
 
   // Corners
   private nInsideCorners: number = 0;
@@ -18,16 +21,28 @@ class Wall {
 
   private nBucks: number = 0;
 
+  private nCourse: number = 0;
+
   // Quantity
   // private nBlocks:
 
   constructor() {}
 
   computeWall() {
-    let remainingSurface = this.length * this.height;
+    let remainingSurfaceArea = this.length * this.height;
+    let openingPerimeter = 0;
+
     for (let opening of this.openings) {
-      const openingPerimeter = (opening.height + opening.width) * 2;
+      const openingSurfaceArea = opening.height * opening.width;
+      openingPerimeter += (opening.height + opening.width) * 2 * opening.quantity;
+
+      remainingSurfaceArea -= openingSurfaceArea;
     }
+
+    this.nBucks += openingPerimeter / getBlockSpecifications("buck", this.width).length;
+
+    remainingSurfaceArea -=
+      this.nInsideCorners * getBlockSpecifications("ninetyCorner", this.width).surfaceArea;
   }
 
   setHeight(height: number) {
@@ -38,7 +53,7 @@ class Wall {
     this.length = length;
   }
 
-  setWidth(width: Width | null) {
+  setWidth(width: Width) {
     this.width = width;
   }
 

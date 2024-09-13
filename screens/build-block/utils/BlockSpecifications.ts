@@ -1,3 +1,4 @@
+// Types
 import { BlockType } from "../../types/BBTypes";
 
 interface BlockSpecification {
@@ -7,10 +8,10 @@ interface BlockSpecification {
   concreteVolume: number; // Cubic yards
   surfaceArea: number; // Square feet
   qtyPerBundle: number;
-  return?: { ext: number; int: number };
+  return?: { ext: number; int: number }; // Inches
 }
 
-const blockData: Record<BlockType, Record<string, BlockSpecification>> = {
+const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>> = {
   straight: {
     '4"': {
       length: 48,
@@ -160,9 +161,11 @@ const blockData: Record<BlockType, Record<string, BlockSpecification>> = {
 };
 
 function getBlockSpecifications(blockType: BlockType, length: string): BlockSpecification {
-  const block = blockData[blockType][length];
+  const block = blockSpecifications[blockType][length];
   if (!block) {
     throw new Error(`Block type ${blockType} or specification at length ${length} not found`);
   }
   return block;
 }
+
+export default getBlockSpecifications;
