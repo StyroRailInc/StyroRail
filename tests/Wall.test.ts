@@ -1,8 +1,4 @@
 import Wall from "@/screens/build-block/utils/BBCalculator/Wall";
-import getBlockSpecifications from "@/screens/build-block/utils/BlockSpecifications";
-
-// Mock the getBlockSpecifications function
-jest.mock("@/screens/build-block/utils/BlockSpecifications");
 
 describe("Wall - computeWall method", () => {
   let wall: Wall;
@@ -10,54 +6,74 @@ describe("Wall - computeWall method", () => {
   beforeEach(() => {
     // Create a new Wall instance for each test
     wall = new Wall();
-
-    // Set the default block specifications mock values
-    (getBlockSpecifications as jest.Mock).mockImplementation((type, width) => {
-      switch (type) {
-        case "buck":
-          return { length: 24 }; // Example: Buck length of 24 units
-        case "ninetyCorner":
-          return { surfaceArea: 32 }; // Example: Surface area for 90-degree corner
-        default:
-          return { surfaceArea: 0, length: 0 };
-      }
-    });
   });
 
-  it("should correctly compute the remaining surface area and the number of bucks", () => {
-    wall.setHeight(10);
-    wall.setLength(20);
+  it("should correctly compute quantities for straight", () => {
+    wall.setHeight(112);
+    wall.setLength(3276);
+
+    wall.setInsideCorners(10);
+
+    const blockQuantities = wall.computeWall();
+
+    const expectedBlockQuantities = {
+      straight: 432,
+      ninetyCorner: 70,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 0,
+      buck: 0,
+    };
+
+    expect(blockQuantities).toEqual(expectedBlockQuantities);
+  });
+
+  it("should correctly compute quantities for brickledge", () => {
+    wall.setHeight(112);
+    wall.setLength(3276);
+
+    wall.setInsideCorners(10);
+
+    wall.setBrickLedgeLength(480);
+
+    const blockQuantities = wall.computeWall();
+
+    const expectedBlockQuantities = {
+      straight: 422,
+      ninetyCorner: 70,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 10,
+      buck: 0,
+    };
+
+    expect(blockQuantities).toEqual(expectedBlockQuantities);
+  });
+
+  it("should correctly compute quantities for openings", () => {
+    wall.setHeight(112);
+    wall.setLength(3276);
+
+    wall.setInsideCorners(10);
+
+    wall.setBrickLedgeLength(480);
 
     wall.setOpenings([
-      { height: 2, width: 3, quantity: 2 },
-      { height: 4, width: 3, quantity: 1 },
+      { height: 60, width: 60, quantity: 2 },
+      { height: 24, width: 24, quantity: 6 },
     ]);
 
-    wall.setInsideCorners(2);
+    const blockQuantities = wall.computeWall();
 
-    wall.computeWall();
+    const expectedBlockQuantities = {
+      straight: 411,
+      ninetyCorner: 70,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 10,
+      buck: 21,
+    };
 
-    const expectedRemainingSurfaceArea =
-      20 * 10 - // total wall surface
-      (2 * 3 * 2 + 4 * 3) - // subtract surface area of openings
-      1 * 32; // subtract surface area of inside corner (mocked value)
-
-    const expectedBucks = (2 * (2 + 3) * 2 + 2 * (4 + 3)) / 24; // Opening perimeter divided by buck length (mocked value)
-
-    // Assertions
-    expect(wall["nBucks"]).toBeCloseTo(expectedBucks); // Check if bucks were calculated correctly
-    // Since the remaining surface area is not stored in the class, no need to assert it directly
-  });
-
-  it("should handle no openings and no inside corners", () => {
-    // Set wall dimensions without openings or corners
-    wall.setHeight(10);
-    wall.setLength(20);
-
-    // Call computeWall
-    wall.computeWall();
-
-    // Expected bucks to remain 0 since there are no openings or corners
-    expect(wall["nBucks"]).toBe(0);
+    expect(blockQuantities).toEqual(expectedBlockQuantities);
   });
 });

@@ -1,5 +1,5 @@
 // Types
-import { BlockType } from "../../types/BBTypes";
+import { BlockType } from "../types/BBTypes";
 
 interface BlockSpecification {
   length: { ext: number; int: number }; // Inches
@@ -18,7 +18,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 9,
       height: 16,
       concreteVolume: 0.065844,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 15,
     },
     '6"': {
@@ -26,7 +26,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 11,
       height: 16,
       concreteVolume: 0.098765,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 12,
     },
     '8"': {
@@ -34,7 +34,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 13,
       height: 16,
       concreteVolume: 0.131687,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 12,
     },
   },
@@ -44,7 +44,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 9,
       height: 16,
       concreteVolume: 0.054574,
-      surfaceArea: { ext: 5.56, int: 3.56 },
+      surfaceArea: { ext: 800, int: 512 },
       qtyPerBundle: 12,
       return: { ext: 19, int: 10 },
     },
@@ -53,7 +53,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 11,
       height: 16,
       concreteVolume: 0.086528,
-      surfaceArea: { ext: 6.0, int: 3.56 },
+      surfaceArea: { ext: 864, int: 512 },
       qtyPerBundle: 12,
       return: { ext: 21, int: 10 },
     },
@@ -62,7 +62,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 13,
       height: 16,
       concreteVolume: 0.121517,
-      surfaceArea: { ext: 6.44, int: 3.56 },
+      surfaceArea: { ext: 928, int: 512 },
       qtyPerBundle: 12,
       return: { ext: 23, int: 10 },
     },
@@ -73,7 +73,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 9,
       height: 16,
       concreteVolume: 0.054985,
-      surfaceArea: { ext: 4.89, int: 4.06 },
+      surfaceArea: { ext: 704, int: 584.704 },
       qtyPerBundle: 12,
       return: { ext: 16, int: 12.272 },
     },
@@ -82,7 +82,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 11,
       height: 16,
       concreteVolume: 0.080841,
-      surfaceArea: { ext: 4.89, int: 3.88 },
+      surfaceArea: { ext: 704, int: 558.21 },
       qtyPerBundle: 12,
       return: { ext: 16, int: 11.444 },
     },
@@ -91,7 +91,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 13,
       height: 16,
       concreteVolume: 0.105425,
-      surfaceArea: { ext: 4.89, int: 3.69 },
+      surfaceArea: { ext: 704, int: 531.68 },
       qtyPerBundle: 12,
       return: { ext: 16, int: 10.615 },
     },
@@ -102,7 +102,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 11,
       height: 16,
       concreteVolume: 0.130128,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 12,
     },
     '8"': {
@@ -110,7 +110,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 13,
       height: 16,
       concreteVolume: 0.16305,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 12,
     },
   },
@@ -120,7 +120,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 11,
       height: 16,
       concreteVolume: 0.134148,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 6,
     },
     '8"': {
@@ -128,7 +128,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 13,
       height: 16,
       concreteVolume: 0.167074,
-      surfaceArea: { ext: 5.33, int: 5.33 },
+      surfaceArea: { ext: 768, int: 768 },
       qtyPerBundle: 6,
     },
   },
@@ -138,7 +138,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 9,
       height: 2,
       concreteVolume: 0, // Not provided
-      surfaceArea: { ext: 3.125, int: 3.125 },
+      surfaceArea: { ext: 450, int: 450 },
       qtyPerBundle: 19,
     },
     '6"': {
@@ -146,7 +146,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 11,
       height: 2,
       concreteVolume: 0, // Not provided
-      surfaceArea: { ext: 3.82, int: 3.82 },
+      surfaceArea: { ext: 550.08, int: 550.08 },
       qtyPerBundle: 18,
     },
     '8"': {
@@ -154,16 +154,16 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
       width: 13,
       height: 2,
       concreteVolume: 0, // Not provided
-      surfaceArea: { ext: 4.51, int: 4.51 },
+      surfaceArea: { ext: 649.44, int: 649.44 },
       qtyPerBundle: 16,
     },
   },
 };
 
-function getBlockSpecifications(blockType: BlockType, length: string): BlockSpecification {
-  const block = blockSpecifications[blockType][length];
+function getBlockSpecifications(blockType: BlockType, width: string): BlockSpecification {
+  const block = blockSpecifications[blockType][width];
   if (!block) {
-    throw new Error(`Block type ${blockType} or specification at length ${length} not found`);
+    throw new Error(`Block type ${blockType} or specification at length ${width} not found`);
   }
   return block;
 }

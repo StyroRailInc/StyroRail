@@ -28,7 +28,7 @@ export const getValidatedWallLength = (inputState: InputState): number | null =>
   try {
     return parseInput(inputState.wallLengthInput, true);
   } catch (error) {
-    console.log("There has been an error");
+    // Do nothing
   }
   return null;
 };
