@@ -10,28 +10,33 @@ import { Constants } from "@/constants";
 // Classes
 import Dimensions from "./Dimensions";
 import Opening from "./Opening";
-import Corner from "./Corner";
-import SpecialBlock from "./SpecialBlock";
+import Corners from "./Corners";
+import SpecialBlocks from "./SpecialBlocks";
 
 class Wall {
   // Dimensions
-  dimensions: Dimensions;
+  private dimensions: Dimensions;
 
   // Corners
-  corner: Corner;
+  private corners: Corners;
 
   // Special blocks
-  specialBlock: SpecialBlock;
+  private specialBlocks: SpecialBlocks;
 
   // Windows and doors dimensions
-  openings: Opening[];
+  private openings: Opening[];
   private nCourses: number = 0;
 
-  constructor() {
-    this.dimensions = new Dimensions(0, 0, '8"');
-    this.corner = new Corner(0, 0, 0, 0, '8"');
-    this.specialBlock = new SpecialBlock(0, 0, 0, '8"');
-    this.openings = [];
+  constructor(
+    dimensions: Dimensions,
+    corners: Corners,
+    specialBlocks: SpecialBlocks,
+    openings: Opening[]
+  ) {
+    this.dimensions = dimensions;
+    this.corners = corners;
+    this.specialBlocks = specialBlocks;
+    this.openings = openings;
   }
 
   computeWall(): Record<BlockType, number> {
@@ -45,18 +50,19 @@ class Wall {
     }
 
     remainingSurfaceArea -=
-      this.corner.getTotalSurfaceArea() * this.nCourses + this.specialBlock.getTotalSurfaceArea();
+      this.corners.getTotalSurfaceArea() * this.nCourses + this.specialBlocks.getTotalSurfaceArea();
+    this.specialBlocks.setBuckLength(openingPerimeter);
 
     const blockQuantities: Record<BlockType, number> = {
       straight: Math.ceil(
         remainingSurfaceArea /
           getBlockSpecifications("straight", this.dimensions.getWidth()).surfaceArea.ext
       ),
-      ninetyCorner: this.corner.getTotal90() * this.nCourses,
-      fortyFiveCorner: this.corner.getTotal45() * this.nCourses,
-      doubleTaperTop: this.specialBlock.getTotalDoubleTaperTop(),
-      brickLedge: this.specialBlock.getTotalBrickLedge(),
-      buck: this.specialBlock.getTotalBuck(),
+      ninetyCorner: this.corners.getTotal90() * this.nCourses,
+      fortyFiveCorner: this.corners.getTotal45() * this.nCourses,
+      doubleTaperTop: this.specialBlocks.getTotalDoubleTaperTop(),
+      brickLedge: this.specialBlocks.getTotalBrickLedge(),
+      buck: this.specialBlocks.getTotalBuck(),
     };
 
     return blockQuantities;

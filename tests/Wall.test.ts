@@ -1,18 +1,26 @@
+import Corners from "@/screens/build-block/utils/BBCalculator/Corners";
+import Dimensions from "@/screens/build-block/utils/BBCalculator/Dimensions";
+import Opening from "@/screens/build-block/utils/BBCalculator/Opening";
+import SpecialBlocks from "@/screens/build-block/utils/BBCalculator/SpecialBlocks";
 import Wall from "@/screens/build-block/utils/BBCalculator/Wall";
 
 describe("Wall - computeWall method", () => {
   let wall: Wall;
+  let dimensions: Dimensions;
+  let corners: Corners;
+  let specialBlocks: SpecialBlocks;
+  let openings: Opening[];
 
   beforeEach(() => {
     // Create a new Wall instance for each test
-    wall = new Wall();
   });
 
   it("should correctly compute quantities for straight", () => {
-    wall.setHeight(112);
-    wall.setLength(3276);
-
-    wall.setInsideCorners(10);
+    dimensions = new Dimensions(112, 3276, '8"');
+    corners = new Corners(10, 0, 0, 0, '8"');
+    specialBlocks = new SpecialBlocks(0, 0, 0, '8"');
+    openings = [];
+    wall = new Wall(dimensions, corners, specialBlocks, openings);
 
     const blockQuantities = wall.computeWall();
 
@@ -29,12 +37,11 @@ describe("Wall - computeWall method", () => {
   });
 
   it("should correctly compute quantities for brickledge", () => {
-    wall.setHeight(112);
-    wall.setLength(3276);
-
-    wall.setInsideCorners(10);
-
-    wall.setBrickLedgeLength(480);
+    dimensions = new Dimensions(112, 3276, '8"');
+    corners = new Corners(10, 0, 0, 0, '8"');
+    specialBlocks = new SpecialBlocks(0, 480, 0, '8"');
+    openings = [];
+    wall = new Wall(dimensions, corners, specialBlocks, openings);
 
     const blockQuantities = wall.computeWall();
 
@@ -51,17 +58,11 @@ describe("Wall - computeWall method", () => {
   });
 
   it("should correctly compute quantities for openings", () => {
-    wall.setHeight(112);
-    wall.setLength(3276);
-
-    wall.setInsideCorners(10);
-
-    wall.setBrickLedgeLength(480);
-
-    wall.setOpenings([
-      { height: 60, width: 60, quantity: 2 },
-      { height: 24, width: 24, quantity: 6 },
-    ]);
+    dimensions = new Dimensions(112, 3276, '8"');
+    corners = new Corners(10, 0, 0, 0, '8"');
+    specialBlocks = new SpecialBlocks(0, 480, 0, '8"');
+    openings = [new Opening(60, 60, 2), new Opening(24, 24, 6)];
+    wall = new Wall(dimensions, corners, specialBlocks, openings);
 
     const blockQuantities = wall.computeWall();
 

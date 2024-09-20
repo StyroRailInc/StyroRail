@@ -24,6 +24,10 @@ class SpecialBlockBase {
   getBlockLength(blockType: BlockType) {
     return getBlockSpecifications(blockType, this.width).length.ext;
   }
+
+  setLength(length: number) {
+    this.length = length;
+  }
 }
 
 class BrickLedge extends SpecialBlockBase {
@@ -68,7 +72,7 @@ class Buck extends SpecialBlockBase {
   }
 }
 
-class SpecialBlock {
+class SpecialBlocks {
   private doubleTaperTop: DoubleTaperTop;
   private brickLedge: BrickLedge;
   private buck: Buck;
@@ -101,6 +105,10 @@ class SpecialBlock {
   getTotalBuck() {
     return Math.ceil(this.buck.getLength() / this.buck.getBlockLength());
   }
+
+  setBuckLength(length: number) {
+    this.buck.setLength(length);
+  }
 }
 
-export default SpecialBlock;
+export default SpecialBlocks;

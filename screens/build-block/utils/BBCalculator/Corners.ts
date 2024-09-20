@@ -26,7 +26,7 @@ class CornerBase {
   }
 
   getTotal() {
-    return this.nOutside * this.nInside;
+    return this.nOutside + this.nInside;
   }
 }
 
@@ -50,7 +50,7 @@ class FortyFiveDegreeCorner extends CornerBase {
   }
 }
 
-class Corner {
+class Corners {
   private ninetyDegreeCorner: NinetyDegreeCorner;
   private fortyFiveDegreeCorner: FortyFiveDegreeCorner;
 
@@ -81,4 +81,4 @@ class Corner {
   }
 }
 
-export default Corner;
+export default Corners;
