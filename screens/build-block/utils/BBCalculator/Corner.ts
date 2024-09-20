@@ -1,0 +1,84 @@
+// Utility functions
+import { BlockType, Width } from "../../types/BBTypes";
+import getBlockSpecifications from "../BlockSpecifications";
+
+class CornerBase {
+  protected width: Width;
+  protected nInside: number;
+  protected nOutside: number;
+
+  constructor(nInside: number, nOutside: number, width: Width) {
+    this.nInside = nInside;
+    this.nOutside = nOutside;
+    this.width = width;
+  }
+
+  getInsideSurfaceArea(blockType: BlockType) {
+    return this.nInside * getBlockSpecifications(blockType, this.width).surfaceArea.int;
+  }
+
+  getOutsideSurfaceArea(blockType: BlockType) {
+    return this.nOutside * getBlockSpecifications(blockType, this.width).surfaceArea.ext;
+  }
+
+  getTotalSurfaceArea(blockType: BlockType) {
+    return this.getInsideSurfaceArea(blockType) + this.getOutsideSurfaceArea(blockType);
+  }
+
+  getTotal() {
+    return this.nOutside * this.nInside;
+  }
+}
+
+class NinetyDegreeCorner extends CornerBase {
+  constructor(nInside: number, nOutside: number, width: Width) {
+    super(nInside, nOutside, width);
+  }
+
+  getTotalSurfaceArea() {
+    return super.getTotalSurfaceArea("ninetyCorner");
+  }
+}
+
+class FortyFiveDegreeCorner extends CornerBase {
+  constructor(nInside: number, nOutside: number, width: Width) {
+    super(nInside, nOutside, width);
+  }
+
+  getTotalSurfaceArea() {
+    return super.getTotalSurfaceArea("fortyFiveCorner");
+  }
+}
+
+class Corner {
+  private ninetyDegreeCorner: NinetyDegreeCorner;
+  private fortyFiveDegreeCorner: FortyFiveDegreeCorner;
+
+  constructor(
+    nInside90: number,
+    nOutside90: number,
+    nInside45: number,
+    nOutside45: number,
+    width: Width
+  ) {
+    this.ninetyDegreeCorner = new NinetyDegreeCorner(nInside90, nOutside90, width);
+    this.fortyFiveDegreeCorner = new FortyFiveDegreeCorner(nInside45, nOutside45, width);
+  }
+
+  getTotalSurfaceArea() {
+    return (
+      this.ninetyDegreeCorner.getTotalSurfaceArea() +
+      this.fortyFiveDegreeCorner.getTotalSurfaceArea()
+    );
+  }
+
+  getTotal90() {
+    return this.ninetyDegreeCorner.getTotal();
+  }
+
+  getTotal45() {
+    return this.fortyFiveDegreeCorner.getTotal();
+  }
+}
+
+export default Corner;

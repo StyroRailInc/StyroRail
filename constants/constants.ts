@@ -155,6 +155,9 @@ const Constants = {
   // Routing constants
   SEND_EMAIL_URL: "https://kjauzq7gpk.execute-api.us-east-2.amazonaws.com/prod",
   FORMWORKER_DYNAMODB_URL: "https://41fsvv1g6b.execute-api.us-east-2.amazonaws.com/prod",
+
+  // BB constants
+  OPENING_MULTIPLIER: 0.8,
 };
 
 export default Constants;

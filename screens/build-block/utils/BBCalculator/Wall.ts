@@ -1,144 +1,65 @@
 // Type
-import { BlockType, Opening, Width } from "../../types/BBTypes";
+import { BlockType, Width } from "../../types/BBTypes";
 
 // Utility function
 import getBlockSpecifications from "../BlockSpecifications";
 
+// Constants
+import { Constants } from "@/constants";
+
+// Classes
+import Dimensions from "./Dimensions";
+import Opening from "./Opening";
+import Corner from "./Corner";
+import SpecialBlock from "./SpecialBlock";
+
 class Wall {
-  // Wall dimensions
-  private height: number = 0;
-  private length: number = 0;
-  private width: Width = '8"';
+  // Dimensions
+  dimensions: Dimensions;
 
   // Corners
-  private nInsideCorners: number = 0;
-  private nOutsideCorners: number = 0;
-  private n45InsideCorners: number = 0;
-  private n45OutsideCorners: number = 0;
+  corner: Corner;
 
   // Special blocks
-  private brickLedgeLength: number = 0;
-  private doubleTaperTopLength: number = 0;
+  specialBlock: SpecialBlock;
 
   // Windows and doors dimensions
-  private openings: Opening[] = [];
+  openings: Opening[];
   private nCourses: number = 0;
 
-  constructor() {}
-
-  computeNCourses() {
-    this.nCourses = this.height / 16;
+  constructor() {
+    this.dimensions = new Dimensions(0, 0, '8"');
+    this.corner = new Corner(0, 0, 0, 0, '8"');
+    this.specialBlock = new SpecialBlock(0, 0, 0, '8"');
+    this.openings = [];
   }
 
   computeWall(): Record<BlockType, number> {
-    this.computeNCourses();
-    let remainingSurfaceArea = this.length * this.height;
+    this.nCourses = this.dimensions.getNCourses();
+    let remainingSurfaceArea = this.dimensions.getSurfaceArea();
     let openingPerimeter = 0;
 
     for (let opening of this.openings) {
-      const openingSurfaceArea = opening.height * opening.width * 0.8 * opening.quantity;
-      openingPerimeter += (opening.height + opening.width) * 2 * opening.quantity;
-
-      remainingSurfaceArea -= openingSurfaceArea;
+      openingPerimeter += opening.getPerimeter();
+      remainingSurfaceArea -= opening.getSurfaceArea();
     }
 
     remainingSurfaceArea -=
-      (this.nInsideCorners * getBlockSpecifications("ninetyCorner", this.width).surfaceArea.int +
-        this.nOutsideCorners * getBlockSpecifications("ninetyCorner", this.width).surfaceArea.ext +
-        this.n45InsideCorners *
-          getBlockSpecifications("fortyFiveCorner", this.width).surfaceArea.int +
-        this.n45OutsideCorners *
-          getBlockSpecifications("fortyFiveCorner", this.width).surfaceArea.ext) *
-        this.nCourses +
-      this.brickLedgeLength * getBlockSpecifications("brickLedge", this.width).height +
-      this.doubleTaperTopLength * getBlockSpecifications("doubleTaperTop", this.width).height;
+      this.corner.getTotalSurfaceArea() * this.nCourses + this.specialBlock.getTotalSurfaceArea();
 
     const blockQuantities: Record<BlockType, number> = {
       straight: Math.ceil(
-        remainingSurfaceArea / getBlockSpecifications("straight", this.width).surfaceArea.ext
+        remainingSurfaceArea /
+          getBlockSpecifications("straight", this.dimensions.getWidth()).surfaceArea.ext
       ),
-      ninetyCorner: Math.ceil((this.nInsideCorners + this.nOutsideCorners) * this.nCourses),
-      fortyFiveCorner: Math.ceil((this.n45InsideCorners + this.n45OutsideCorners) * this.nCourses),
-      doubleTaperTop: Math.ceil(
-        (this.doubleTaperTopLength * getBlockSpecifications("doubleTaperTop", this.width).height) /
-          getBlockSpecifications("doubleTaperTop", this.width).surfaceArea.ext
-      ),
-      brickLedge: Math.ceil(
-        (this.brickLedgeLength * getBlockSpecifications("brickLedge", this.width).height) /
-          getBlockSpecifications("brickLedge", this.width).surfaceArea.ext
-      ),
-      buck: Math.ceil(openingPerimeter / getBlockSpecifications("buck", this.width).length.ext),
+      ninetyCorner: this.corner.getTotal90() * this.nCourses,
+      fortyFiveCorner: this.corner.getTotal45() * this.nCourses,
+      doubleTaperTop: this.specialBlock.getTotalDoubleTaperTop(),
+      brickLedge: this.specialBlock.getTotalBrickLedge(),
+      buck: this.specialBlock.getTotalBuck(),
     };
 
     return blockQuantities;
-  }
-
-  setHeight(height: number) {
-    this.height = height;
-  }
-
-  setLength(length: number) {
-    this.length = length;
-  }
-
-  setWidth(width: Width) {
-    this.width = width;
-  }
-
-  setInsideCorners(nInsideCorners: number) {
-    this.nInsideCorners = nInsideCorners;
-  }
-
-  setOutsideCorners(nOutsideCorners: number) {
-    this.nOutsideCorners = nOutsideCorners;
-  }
-
-  set45InsideCorners(n45InsideCorners: number) {
-    this.n45InsideCorners = n45InsideCorners;
-  }
-
-  set45OutsideCorners(n45OutsideCorners: number) {
-    this.n45OutsideCorners = n45OutsideCorners;
-  }
-
-  setBrickLedgeLength(brickLedgeLength: number) {
-    this.brickLedgeLength = brickLedgeLength;
-  }
-
-  setOpenings(openings: Opening[]) {
-    this.openings = openings;
-  }
-
-  getHeight(): number {
-    return this.height;
-  }
-
-  getLength(): number {
-    return this.length;
-  }
-
-  getWidth(): Width | null {
-    return this.width;
-  }
-
-  getInsideCorners(): number {
-    return this.nInsideCorners;
-  }
-
-  getOutsideCorners(): number {
-    return this.nOutsideCorners;
-  }
-
-  get45InsideCorners(): number {
-    return this.n45InsideCorners;
-  }
-
-  get45OutsideCorners(): number {
-    return this.n45OutsideCorners;
-  }
-
-  getOpenings(): Opening[] {
-    return this.openings;
   }
 }
 
