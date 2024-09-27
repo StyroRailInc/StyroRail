@@ -16,7 +16,7 @@ interface ResponsiveInputProps {
   size: number;
   input: string;
   inputStyle?: TextStyle | TextStyle[];
-  setInput: React.Dispatch<React.SetStateAction<string>>;
+  setInput: React.Dispatch<any>;
 }
 
 const ResponsiveInput: React.FC<ResponsiveInputProps> = ({

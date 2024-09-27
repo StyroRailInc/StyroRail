@@ -110,6 +110,21 @@ export default function Layout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="build-block"
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#00aaef",
+          },
+          headerTitleAlign: "center",
+          headerTitle: () => <HeaderTitle />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon icon={icons.brickWall} color={color} name="Build Block" focused={focused} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

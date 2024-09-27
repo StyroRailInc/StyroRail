@@ -1,8 +1,66 @@
 // React imports
-import React from "react";
+import React, { useState, useReducer } from "react";
+import { ScrollView, View, StyleSheet } from "react-native";
+
+// Custom hooks
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+// Components
+import Inputs from "./components/Inputs";
+import Openings from "./components/Openings";
+
+// Constants
+import { Constants } from "@/constants";
+
+// Reducer
+import { inputReducer, initialState, openingReducer, initialOpeningState } from "./reducer";
 
 const BuildBlock: React.FC = () => {
-    return ();
+  const [appScreenWidth, setAppScreenWidth] = useState<number>();
+  const [windowWidth, setWindowWidth] = useState<number>();
+
+  useWindowDimensions(Constants.SCROLLVIEW_WIDTH_PERCENTAGE, setWindowWidth);
+  useWindowDimensions(Constants.APP_SCREEN_WIDTH_PERCENTAGE, setAppScreenWidth);
+
+  const [inputState, dispatchInput] = useReducer(inputReducer, initialState);
+  const [openingState, dispatchOpening] = useReducer(openingReducer, initialOpeningState);
+
+  return (
+    <View style={styles.pageContainer}>
+      <ScrollView
+        contentContainerStyle={[styles.scrollContent, { minWidth: windowWidth }]}
+        keyboardShouldPersistTaps={"always"}
+        showsVerticalScrollIndicator={false}
+      >
+        <View
+          style={[styles.pageContent, { width: appScreenWidth, maxWidth: Constants.APP_MAX_WIDTH }]}
+        >
+          <Inputs inputState={inputState} dispatch={dispatchInput} />
+          <Openings openingState={openingState} openingReducer={dispatchOpening} />
+        </View>
+      </ScrollView>
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  pageContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    width: "100%",
+  },
+  scrollContent: {
+    flexGrow: 1,
+    alignItems: "center",
+    padding: 20,
+  },
+  pageContent: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+    width: "100%",
+  },
+});
 
 export default BuildBlock;
