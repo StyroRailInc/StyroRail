@@ -1,7 +1,7 @@
 // Constants
 import { Constants } from "@/constants";
 
-const parseInput = (text: string, isfeet: boolean): number => {
+const parseInput = (text: string, isFeet: boolean): number => {
   const isNotZero = (total: number) => {
     if (total) {
       return total;
@@ -32,7 +32,7 @@ const parseInput = (text: string, isfeet: boolean): number => {
       total = parseInt(notation);
       return isNotZero(total);
     }
-    total = isfeet ? parseInt(notation) * Constants.N_INCHES_IN_FOOT : parseInt(notation);
+    total = isFeet ? parseInt(notation) * Constants.N_INCHES_IN_FOOT : parseInt(notation);
     return isNotZero(total);
   };
 

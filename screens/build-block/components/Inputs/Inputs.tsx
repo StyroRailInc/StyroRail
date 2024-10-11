@@ -26,6 +26,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
           title=""
           size={Constants.FONT_SIZE}
           input={inputState.height}
+          inputStyle={styles.inputStyle}
           setInput={(value) => {
             dispatch({ type: "setHeight", payload: value });
           }}
@@ -43,6 +44,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
             title=""
             size={Constants.FONT_SIZE}
             input={inputState.length}
+            inputStyle={styles.inputStyle}
             setInput={(value) => {
               dispatch({ type: "setLength", payload: value });
             }}
@@ -61,6 +63,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
             title=""
             size={Constants.FONT_SIZE}
             input={inputState.nInsideCorners}
+            inputStyle={styles.inputStyle}
             setInput={(value) => {
               dispatch({ type: "setNInsideCorners", payload: value });
             }}
@@ -77,6 +80,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
             title=""
             size={Constants.FONT_SIZE}
             input={inputState.n45InsideCorners}
+            inputStyle={styles.inputStyle}
             setInput={(value) => {
               dispatch({ type: "setN45InsideCorners", payload: value });
             }}
@@ -95,6 +99,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
             title=""
             size={Constants.FONT_SIZE}
             input={inputState.nOutsideCorners}
+            inputStyle={styles.inputStyle}
             setInput={(value) => {
               dispatch({ type: "setNOutsideCorners", payload: value });
             }}
@@ -110,6 +115,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
             title=""
             size={Constants.FONT_SIZE}
             input={inputState.n45OutsideCorners}
+            inputStyle={styles.inputStyle}
             setInput={(value) => {
               dispatch({ type: "setN45OutsideCorners", payload: value });
             }}

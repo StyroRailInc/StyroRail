@@ -1,5 +1,18 @@
 // Types
-import { InputState, InputAction, OpeningAction, OpeningState } from "./types/BBTypes";
+import {
+  InputState,
+  InputAction,
+  OpeningAction,
+  OpeningState,
+  WallState,
+  WallAction,
+} from "./types/BBTypes";
+
+// Class
+import Opening from "./utils/BBCalculator/Opening";
+
+// Utility
+import { parseInput } from "@/utils/InputParser";
 
 function inputReducer(state: InputState, action: InputAction) {
   switch (action.type) {
@@ -47,16 +60,58 @@ function openingReducer(state: OpeningState, action: OpeningAction) {
           ...state.openings.slice(action.payload + 1),
         ],
       };
+    case "modifyOpening":
+      try {
+        return {
+          ...state,
+          openings: state.openings.map((opening, index) => {
+            if (index === action.payload.index) {
+              let updatedOpening = {
+                width: opening.width,
+                height: opening.height,
+                quantity: opening.quantity,
+              };
+
+              switch (action.payload.attribute) {
+                case "width":
+                  updatedOpening.width = action.payload.value;
+                  break;
+                case "height":
+                  updatedOpening.height = action.payload.value;
+                  break;
+                case "quantity":
+                  updatedOpening.quantity = action.payload.value;
+                  break;
+                default:
+                  break;
+              }
+
+              return updatedOpening;
+            }
+
+            return opening;
+          }),
+        };
+      } catch (erro) {}
+
     default:
       return state;
   }
 }
 
 const initialOpeningState: OpeningState = {
-  width: "",
-  height: "",
-  quantity: "",
-  openings: [],
+  openings: [{ width: "", height: "", quantity: "" }],
+};
+
+function wallReducer(state: WallState, action: WallAction) {
+  switch (action.type) {
+    case "addWall":
+      break;
+  }
+}
+
+const initialWallState: WallState = {
+  walls: [],
 };
 
 export { inputReducer, initialState, openingReducer, initialOpeningState };

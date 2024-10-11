@@ -29,15 +29,25 @@ export type InputAction =
   | { type: "setN45InsideCorners"; payload: string };
 
 export type OpeningState = {
-  height: string;
-  width: string;
-  quantity: string;
-  openings: Opening[];
+  openings: { width: string; height: string; quantity: string }[];
 };
 
 export type OpeningAction =
   | { type: "setOpeningHeight"; payload: string }
   | { type: "setOpeningWidth"; payload: string }
   | { type: "setOpeningQuantity"; payload: string }
-  | { type: "addOpening"; payload: Opening }
-  | { type: "removeOpening"; payload: number };
+  | { type: "addOpening"; payload: { width: string; height: string; quantity: string } }
+  | { type: "removeOpening"; payload: number }
+  | {
+      type: "modifyOpening";
+      payload: { index: number; attribute: "width" | "height" | "quantity"; value: string };
+    };
+
+export type WallState = {
+  walls: { inputState: InputState; openingState: OpeningState }[];
+};
+
+export type WallAction = {
+  type: "addWall";
+  payload: { inputState: InputState; openingState: OpeningState };
+};
