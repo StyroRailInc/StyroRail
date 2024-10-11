@@ -106,12 +106,23 @@ const initialOpeningState: OpeningState = {
 function wallReducer(state: WallState, action: WallAction) {
   switch (action.type) {
     case "addWall":
+      return state;
       break;
   }
 }
 
 const initialWallState: WallState = {
-  walls: [],
+  walls: [
+    { inputState: initialState, openingState: initialOpeningState },
+    { inputState: initialState, openingState: initialOpeningState },
+  ],
 };
 
-export { inputReducer, initialState, openingReducer, initialOpeningState };
+export {
+  inputReducer,
+  initialState,
+  openingReducer,
+  initialOpeningState,
+  wallReducer,
+  initialWallState,
+};

@@ -8,12 +8,20 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 // Components
 import Inputs from "./components/Inputs";
 import Openings from "./components/Openings";
+import Walls from "./components/Walls";
 
 // Constants
 import { Constants } from "@/constants";
 
 // Reducer
-import { inputReducer, initialState, openingReducer, initialOpeningState } from "./reducer";
+import {
+  inputReducer,
+  initialState,
+  openingReducer,
+  initialOpeningState,
+  wallReducer,
+  initialWallState,
+} from "./reducer";
 
 const BuildBlock: React.FC = () => {
   const [appScreenWidth, setAppScreenWidth] = useState<number>();
@@ -24,6 +32,7 @@ const BuildBlock: React.FC = () => {
 
   const [inputState, dispatchInput] = useReducer(inputReducer, initialState);
   const [openingState, dispatchOpening] = useReducer(openingReducer, initialOpeningState);
+  const [wallState, dispatchWall] = useReducer(wallReducer, initialWallState);
 
   return (
     <View style={styles.pageContainer}>
@@ -35,6 +44,7 @@ const BuildBlock: React.FC = () => {
         <View
           style={[styles.pageContent, { width: appScreenWidth, maxWidth: Constants.APP_MAX_WIDTH }]}
         >
+          <Walls wallState={wallState} wallReducer={dispatchWall} />
           <Inputs inputState={inputState} dispatch={dispatchInput} />
           <Openings openingState={openingState} openingReducer={dispatchOpening} />
         </View>
