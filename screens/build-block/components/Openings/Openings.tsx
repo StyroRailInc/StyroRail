@@ -100,12 +100,21 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
           </View>
         </View>
       ))}
-      <ResponsiveButton
-        title="+"
-        size={Constants.FONT_SIZE}
-        style={{ marginBottom: 10, width: "94%", marginTop: 20 }}
-        handlePress={handleAddOpeningPress}
-      />
+      <View style={{ width: 100, marginVertical: 10, marginLeft: 20 }}>
+        <ResponsiveButton
+          title={"Ajouter"}
+          size={0}
+          style={{
+            borderRadius: 4,
+            borderWidth: 2,
+            backgroundColor: "white",
+            borderColor: "#00aaef",
+            padding: 5,
+          }}
+          textStyle={{ color: "#2e4459" }}
+          handlePress={handleAddOpeningPress}
+        />
+      </View>
     </View>
   );
 };

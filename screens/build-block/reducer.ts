@@ -124,7 +124,7 @@ function wallReducer(state: WallState, action: WallAction) {
         walls: updatedWalls,
       };
     }
-    case "addWall":
+    case "addWall": {
       const updatedWalls = [...state.walls];
       updatedWalls.push({
         inputState: action.payload.inputState,
@@ -132,6 +132,20 @@ function wallReducer(state: WallState, action: WallAction) {
       });
 
       return { ...state, walls: updatedWalls };
+    }
+
+    case "deleteWall": {
+      let updatedWalls = [...state.walls];
+      updatedWalls = [
+        ...updatedWalls.slice(0, action.payload.index),
+        ...updatedWalls.slice(action.payload.index + 1),
+      ];
+
+      console.log(updatedWalls);
+
+      return { ...state, walls: updatedWalls };
+    }
+
     default:
       return state;
   }

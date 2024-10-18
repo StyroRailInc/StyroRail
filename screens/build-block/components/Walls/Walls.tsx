@@ -1,6 +1,6 @@
 // React imports
-import React, { useState } from "react";
-import { ScrollView, View, StyleSheet, Pressable } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { ScrollView, View, StyleSheet } from "react-native";
 
 // Components
 import ResponsiveText from "@/components/ResponsiveText";
@@ -37,18 +37,22 @@ const Walls: React.FC<WallsProps> = ({
   openingReducer,
   inputReducer,
 }) => {
-  const [pressedWallIndex, setPressedWallIndex] = useState(0);
+  const pressedWallIndex = useRef(0);
 
   const handleAddWallPress = (index: number) => {
     wallReducer({
       type: "modifyWall",
-      payload: { inputState: inputState, openingState: openingState, index: pressedWallIndex },
+      payload: {
+        inputState: inputState,
+        openingState: openingState,
+        index: pressedWallIndex.current,
+      },
     });
     wallReducer({
       type: "addWall",
       payload: { inputState: inputState, openingState: openingState },
     });
-    setPressedWallIndex(index);
+    pressedWallIndex.current = index;
     inputReducer({ type: "setHeight", payload: "" });
     inputReducer({ type: "setLength", payload: "" });
     inputReducer({
@@ -75,12 +79,20 @@ const Walls: React.FC<WallsProps> = ({
     });
   };
 
-  const handleWallPress = (index: number) => {
+  // Potentially add this effect to auto update
+  useEffect(() => {
     wallReducer({
       type: "modifyWall",
-      payload: { inputState: inputState, openingState: openingState, index: pressedWallIndex },
+      payload: {
+        inputState: inputState,
+        openingState: openingState,
+        index: pressedWallIndex.current,
+      },
     });
-    setPressedWallIndex(index);
+  }, [inputState, openingState]);
+
+  const handleWallPress = (index: number) => {
+    pressedWallIndex.current = index;
     inputReducer({ type: "setHeight", payload: wallState.walls[index].inputState.height });
     inputReducer({ type: "setLength", payload: wallState.walls[index].inputState.length });
     inputReducer({
@@ -102,53 +114,65 @@ const Walls: React.FC<WallsProps> = ({
     openingReducer({ type: "setOpenings", payload: wallState.walls[index].openingState });
   };
 
+  const handleDeletePress = () => {
+    if (wallState.walls.length !== 1) {
+      wallReducer({ type: "deleteWall", payload: { index: pressedWallIndex.current } });
+      if (pressedWallIndex.current === 0) {
+        handleWallPress(pressedWallIndex.current);
+      } else {
+        handleWallPress(pressedWallIndex.current - 1);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <ScrollView horizontal style={styles.scrollContainer}>
-        {wallState.walls.map((wall, index) => (
-          <View key={index} style={styles.wallContainer}>
-            {index === pressedWallIndex ? (
-              <ResponsiveButton
-                title={`Mur ${index + 1}`}
-                size={0}
-                style={{
-                  borderRadius: 4,
-                  borderWidth: 2,
-                  borderColor: "#00aaef",
-                }}
-                handlePress={() => handleWallPress(index)}
-              />
-            ) : (
-              <ResponsiveButton
-                title={`Mur ${index + 1}`}
-                size={0}
-                style={{
-                  borderRadius: 4,
-                  borderWidth: 2,
-                  backgroundColor: "white",
-                  borderColor: "#00aaef",
-                }}
-                textStyle={{ color: "#2e4459" }}
-                handlePress={() => handleWallPress(index)}
-              />
-            )}
-          </View>
-        ))}
-        <View key={wallState.walls.length} style={[styles.wallContainer, { opacity: 0.5 }]}>
-          <ResponsiveButton
-            title={`Mur ${wallState.walls.length + 1}`}
-            size={0}
-            style={{
-              borderRadius: 4,
-              borderWidth: 2,
-              backgroundColor: "white",
-              borderColor: "#00aaef",
-            }}
-            textStyle={{ color: "#2e4459" }}
-            handlePress={() => handleAddWallPress(wallState.walls.length)}
-          />
+      {wallState.walls.map((wall, index) => (
+        <View key={index} style={styles.wallContainer}>
+          {index === pressedWallIndex.current ? (
+            <ResponsiveButton
+              title={`Mur ${index + 1}`}
+              size={0}
+              style={{
+                borderRadius: 4,
+                borderWidth: 2,
+                borderColor: "#00aaef",
+              }}
+              handlePress={() => handleWallPress(index)}
+            />
+          ) : (
+            <ResponsiveButton
+              title={`Mur ${index + 1}`}
+              size={0}
+              style={{
+                borderRadius: 4,
+                borderWidth: 2,
+                backgroundColor: "white",
+                borderColor: "#00aaef",
+              }}
+              textStyle={{ color: "#2e4459" }}
+              handlePress={() => handleWallPress(index)}
+            />
+          )}
         </View>
-      </ScrollView>
+      ))}
+      <View key={wallState.walls.length} style={[styles.wallContainer, { opacity: 0.5 }]}>
+        <ResponsiveButton
+          title={`Mur ${wallState.walls.length + 1}`}
+          size={0}
+          style={{
+            borderRadius: 4,
+            borderWidth: 2,
+            backgroundColor: "white",
+            borderColor: "#00aaef",
+          }}
+          textStyle={{ color: "#2e4459" }}
+          handlePress={() => handleAddWallPress(wallState.walls.length)}
+        />
+      </View>
+      <View style={{ position: "absolute", right: 10 }}>
+        <ResponsiveButton title="-" size={Constants.FONT_SIZE} handlePress={handleDeletePress} />
+      </View>
     </View>
   );
 };
@@ -161,6 +185,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     display: "flex",
+    flexDirection: "row",
     justifyContent: "flex-start",
     height: 50,
   },

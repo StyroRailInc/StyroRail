@@ -56,4 +56,10 @@ export type WallAction =
   | {
       type: "addWall";
       payload: { inputState: InputState; openingState: OpeningState };
+    }
+  | {
+      type: "deleteWall";
+      payload: {
+        index: number;
+      };
     };

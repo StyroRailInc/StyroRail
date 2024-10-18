@@ -1,7 +1,7 @@
 // Constants
 import { Constants } from "@/constants";
 
-const parseInput = (text: string, isFeet: boolean): number => {
+const parseInput = (text: string, isFeet: boolean, emptyStringIsValid?: boolean): number => {
   const isNotZero = (total: number) => {
     if (total) {
       return total;
@@ -48,6 +48,9 @@ const parseInput = (text: string, isFeet: boolean): number => {
   ) {
     return parseFeetInchesNotation(text);
   } else {
+    if (emptyStringIsValid && /^$/.test(text)) {
+      return 0;
+    }
     throw new Error("Invalid Input");
   }
 };
