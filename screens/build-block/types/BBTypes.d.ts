@@ -41,13 +41,19 @@ export type OpeningAction =
   | {
       type: "modifyOpening";
       payload: { index: number; attribute: "width" | "height" | "quantity"; value: string };
-    };
+    }
+  | { type: "setOpenings"; payload: OpeningState };
 
 export type WallState = {
   walls: { inputState: InputState; openingState: OpeningState }[];
 };
 
-export type WallAction = {
-  type: "addWall";
-  payload: { inputState: InputState; openingState: OpeningState };
-};
+export type WallAction =
+  | {
+      type: "modifyWall";
+      payload: { inputState: InputState; openingState: OpeningState; index: number };
+    }
+  | {
+      type: "addWall";
+      payload: { inputState: InputState; openingState: OpeningState };
+    };

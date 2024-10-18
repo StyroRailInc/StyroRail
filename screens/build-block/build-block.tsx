@@ -44,7 +44,14 @@ const BuildBlock: React.FC = () => {
         <View
           style={[styles.pageContent, { width: appScreenWidth, maxWidth: Constants.APP_MAX_WIDTH }]}
         >
-          <Walls wallState={wallState} wallReducer={dispatchWall} />
+          <Walls
+            wallState={wallState}
+            openingState={openingState}
+            inputState={inputState}
+            wallReducer={dispatchWall}
+            openingReducer={dispatchOpening}
+            inputReducer={dispatchInput}
+          />
           <Inputs inputState={inputState} dispatch={dispatchInput} />
           <Openings openingState={openingState} openingReducer={dispatchOpening} />
         </View>

@@ -1,11 +1,22 @@
+// React imports
 import React, { useState } from "react";
-import { Dimensions, StyleSheet, Pressable, ViewStyle } from "react-native";
+import { Dimensions, StyleSheet, Pressable, ViewStyle, TextStyle } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
+
+// Icons
 import { AntDesign } from "@expo/vector-icons";
+
+// Components
 import ResponsiveText from "@/components/ResponsiveText";
+
+// Cutom hooks
 import calculateSize from "@/utils/CalculateSize";
 import useDimensionsEffect from "@/hooks/useDimensions";
+
+// Constants
 import { Constants } from "@/constants";
+
+// Animation
 import fade from "@/animations/fade";
 
 interface ResponsiveButtonProps {
@@ -13,6 +24,7 @@ interface ResponsiveButtonProps {
   size: number;
   style?: ViewStyle | ViewStyle[];
   iconName?: string;
+  textStyle?: TextStyle;
   minIconSize?: number;
   useAnimation?: boolean;
   handlePress: () => void;
@@ -23,6 +35,7 @@ const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
   size,
   style,
   iconName,
+  textStyle,
   minIconSize = 0,
   useAnimation = false,
   handlePress,
@@ -57,7 +70,7 @@ const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
           <ResponsiveText
             title={title}
             size={size}
-            style={{ color: "white", fontWeight: "bold" }}
+            style={textStyle ? textStyle : { color: "white", fontWeight: "bold" }}
           />
         )}
 
