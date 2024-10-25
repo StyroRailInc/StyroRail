@@ -20,7 +20,7 @@ class Dimensions {
   }
 
   getNCourses() {
-    return this.height / getBlockSpecifications("straight", this.width).height;
+    return Math.ceil(this.height / getBlockSpecifications("straight", this.width).height);
   }
 
   getHeight(): number {

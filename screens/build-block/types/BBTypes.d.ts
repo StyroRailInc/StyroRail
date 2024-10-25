@@ -14,19 +14,25 @@ export type BlockType =
 export type InputState = {
   length: string;
   height: string;
+  width: string;
   nInsideCorners: string;
   nOutsideCorners: string;
   n45InsideCorners: string;
   n45OutsideCorners: string;
+  doubleTaperTopLength: string;
+  brickLedgeLength: string;
 };
 
 export type InputAction =
   | { type: "setLength"; payload: string }
   | { type: "setHeight"; payload: string }
+  | { type: "setWidth"; payload: string }
   | { type: "setNInsideCorners"; payload: string }
   | { type: "setNOutsideCorners"; payload: string }
   | { type: "setN45OutsideCorners"; payload: string }
-  | { type: "setN45InsideCorners"; payload: string };
+  | { type: "setN45InsideCorners"; payload: string }
+  | { type: "setBrickLedgeLength"; payload: string }
+  | { type: "setDoubleTaperTopLength"; payload: string };
 
 export type OpeningState = {
   openings: { width: string; height: string; quantity: string }[];

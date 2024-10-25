@@ -25,7 +25,7 @@ import House from "./utils/BBCalculator/House";
 // Reducer
 import {
   inputReducer,
-  initialState,
+  initialInputState,
   openingReducer,
   initialOpeningState,
   wallReducer,
@@ -42,20 +42,24 @@ const BuildBlock: React.FC = () => {
   useWindowDimensions(Constants.SCROLLVIEW_WIDTH_PERCENTAGE, setWindowWidth);
   useWindowDimensions(Constants.APP_SCREEN_WIDTH_PERCENTAGE, setAppScreenWidth);
 
-  const [inputState, dispatchInput] = useReducer(inputReducer, initialState);
+  const [inputState, dispatchInput] = useReducer(inputReducer, initialInputState);
   const [openingState, dispatchOpening] = useReducer(openingReducer, initialOpeningState);
   const [wallState, dispatchWall] = useReducer(wallReducer, initialWallState);
 
+  const [isResultVisible, setIsResultVisible] = useState<boolean>(false);
+
   const handleCalculatePress = () => {
     try {
-      const specialBlocksDummy = new SpecialBlocks(0, 0, 0, '8"');
       const walls = [];
+      const emptyStringIsValid = true;
+      const isFeet = true;
       for (let wall of wallState.walls) {
         const dimensions = new Dimensions(
-          parseInput(wall.inputState.height, true),
-          parseInput(wall.inputState.length, true),
+          parseInput(wall.inputState.height, isFeet, !emptyStringIsValid),
+          parseInput(wall.inputState.length, isFeet, !emptyStringIsValid),
           '8"'
         );
+
         const corners = new Corners(
           parseIntegerInput(wall.inputState.nInsideCorners),
           parseIntegerInput(wall.inputState.nOutsideCorners),
@@ -64,21 +68,29 @@ const BuildBlock: React.FC = () => {
           '8"'
         );
 
+        const specialBlocks = new SpecialBlocks(
+          parseInput(wall.inputState.doubleTaperTopLength, isFeet, emptyStringIsValid),
+          parseInput(wall.inputState.brickLedgeLength, isFeet, emptyStringIsValid),
+          0,
+          '8"'
+        );
+
         const openings = [];
         for (let opening of wall.openingState.openings) {
           const openingObject = new Opening(
-            parseInput(opening.width, true, true),
-            parseInput(opening.height, true, true),
+            parseInput(opening.width, isFeet, emptyStringIsValid),
+            parseInput(opening.height, isFeet, emptyStringIsValid),
             parseIntegerInput(opening.quantity)
           );
           openings.push(openingObject);
         }
 
-        const wallObject = new Wall(dimensions, corners, specialBlocksDummy, openings);
+        const wallObject = new Wall(dimensions, corners, specialBlocks, openings);
         walls.push(wallObject);
-        const house = new House(walls);
-        house.computeHouse();
       }
+      const house = new House(walls);
+      house.computeHouse();
+      console.log(house);
     } catch (error) {
       console.error(error);
     }

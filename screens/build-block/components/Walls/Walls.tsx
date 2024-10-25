@@ -5,6 +5,7 @@ import { ScrollView, View, StyleSheet } from "react-native";
 // Components
 import ResponsiveText from "@/components/ResponsiveText";
 import ResponsiveInput from "@/components/ResponsiveInput";
+import ResponsiveButton from "@/components/ResponsiveButton";
 
 // Constants
 import { Constants } from "@/constants";
@@ -18,7 +19,9 @@ import {
   OpeningAction,
   InputAction,
 } from "../../types/BBTypes";
-import ResponsiveButton from "@/components/ResponsiveButton";
+
+// Reducer
+import { initialOpeningState, initialInputState } from "../../reducer";
 
 interface WallsProps {
   wallState: WallState;
@@ -48,13 +51,18 @@ const Walls: React.FC<WallsProps> = ({
         index: pressedWallIndex.current,
       },
     });
+    pressedWallIndex.current = index;
+    resetInput();
     wallReducer({
       type: "addWall",
-      payload: { inputState: inputState, openingState: openingState },
+      payload: { inputState: initialInputState, openingState: openingState }, // because state not updated automatically
     });
-    pressedWallIndex.current = index;
+  };
+
+  const resetInput = () => {
     inputReducer({ type: "setHeight", payload: "" });
     inputReducer({ type: "setLength", payload: "" });
+    inputReducer({ type: "setWidth", payload: "" });
     inputReducer({
       type: "setN45InsideCorners",
       payload: "",
@@ -71,6 +79,14 @@ const Walls: React.FC<WallsProps> = ({
       type: "setNOutsideCorners",
       payload: "",
     });
+    inputReducer({
+      type: "setDoubleTaperTopLength",
+      payload: "",
+    });
+    inputReducer({
+      type: "setBrickLedgeLength",
+      payload: "",
+    });
     openingReducer({
       type: "setOpenings",
       payload: {
@@ -79,22 +95,10 @@ const Walls: React.FC<WallsProps> = ({
     });
   };
 
-  // Potentially add this effect to auto update
-  useEffect(() => {
-    wallReducer({
-      type: "modifyWall",
-      payload: {
-        inputState: inputState,
-        openingState: openingState,
-        index: pressedWallIndex.current,
-      },
-    });
-  }, [inputState, openingState]);
-
-  const handleWallPress = (index: number) => {
-    pressedWallIndex.current = index;
+  const updateInput = (index: number) => {
     inputReducer({ type: "setHeight", payload: wallState.walls[index].inputState.height });
     inputReducer({ type: "setLength", payload: wallState.walls[index].inputState.length });
+    inputReducer({ type: "setWidth", payload: wallState.walls[index].inputState.width });
     inputReducer({
       type: "setN45InsideCorners",
       payload: wallState.walls[index].inputState.n45InsideCorners,
@@ -111,17 +115,62 @@ const Walls: React.FC<WallsProps> = ({
       type: "setNOutsideCorners",
       payload: wallState.walls[index].inputState.nOutsideCorners,
     });
+    inputReducer({
+      type: "setDoubleTaperTopLength",
+      payload: wallState.walls[index].inputState.doubleTaperTopLength,
+    });
+    inputReducer({
+      type: "setBrickLedgeLength",
+      payload: wallState.walls[index].inputState.brickLedgeLength,
+    });
     openingReducer({ type: "setOpenings", payload: wallState.walls[index].openingState });
   };
 
+  const handleWallPress = (index: number) => {
+    wallReducer({
+      type: "modifyWall",
+      payload: {
+        inputState: inputState,
+        openingState: openingState,
+        index: pressedWallIndex.current,
+      },
+    });
+    pressedWallIndex.current = index;
+    updateInput(index);
+  };
+
+  useEffect(() => {
+    wallReducer({
+      type: "modifyWall",
+      payload: {
+        inputState: inputState,
+        openingState: openingState,
+        index: pressedWallIndex.current,
+      },
+    });
+  }, [inputState, openingState]);
+
   const handleDeletePress = () => {
-    if (wallState.walls.length !== 1) {
-      wallReducer({ type: "deleteWall", payload: { index: pressedWallIndex.current } });
-      if (pressedWallIndex.current === 0) {
-        handleWallPress(pressedWallIndex.current);
+    if (pressedWallIndex.current === 0) {
+      if (wallState.walls.length > 1) {
+        wallReducer({ type: "deleteWall", payload: { index: pressedWallIndex.current } });
+        updateInput(pressedWallIndex.current + 1);
       } else {
-        handleWallPress(pressedWallIndex.current - 1);
+        wallReducer({
+          type: "modifyWall",
+          payload: {
+            inputState: initialInputState,
+            openingState: initialOpeningState,
+            index: pressedWallIndex.current,
+          },
+        });
+        resetInput();
       }
+      pressedWallIndex.current = 0;
+    } else {
+      wallReducer({ type: "deleteWall", payload: { index: pressedWallIndex.current } });
+      pressedWallIndex.current = pressedWallIndex.current - 1;
+      updateInput(pressedWallIndex.current);
     }
   };
 

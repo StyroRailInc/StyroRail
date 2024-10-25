@@ -1,11 +1,8 @@
 // Type
-import { BlockType, Width } from "../../types/BBTypes";
+import { BlockType } from "../../types/BBTypes";
 
 // Utility function
 import getBlockSpecifications from "../BlockSpecifications";
-
-// Constants
-import { Constants } from "@/constants";
 
 // Classes
 import Dimensions from "./Dimensions";
@@ -14,16 +11,9 @@ import Corners from "./Corners";
 import SpecialBlocks from "./SpecialBlocks";
 
 class Wall {
-  // Dimensions
   private dimensions: Dimensions;
-
-  // Corners
   private corners: Corners;
-
-  // Special blocks
   private specialBlocks: SpecialBlocks;
-
-  // Windows and doors dimensions
   private openings: Opening[];
   private nCourses: number = 0;
 

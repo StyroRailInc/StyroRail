@@ -8,18 +8,14 @@ import {
   WallAction,
 } from "./types/BBTypes";
 
-// Class
-import Opening from "./utils/BBCalculator/Opening";
-
-// Utility
-import { parseInput } from "@/utils/InputParser";
-
 function inputReducer(state: InputState, action: InputAction) {
   switch (action.type) {
     case "setLength":
       return { ...state, length: action.payload };
     case "setHeight":
       return { ...state, height: action.payload };
+    case "setWidth":
+      return { ...state, width: action.payload };
     case "setNInsideCorners":
       return { ...state, nInsideCorners: action.payload };
     case "setNOutsideCorners":
@@ -28,18 +24,25 @@ function inputReducer(state: InputState, action: InputAction) {
       return { ...state, n45InsideCorners: action.payload };
     case "setN45OutsideCorners":
       return { ...state, n45OutsideCorners: action.payload };
+    case "setDoubleTaperTopLength":
+      return { ...state, doubleTaperTopLength: action.payload };
+    case "setBrickLedgeLength":
+      return { ...state, brickLedgeLength: action.payload };
     default:
       return state;
   }
 }
 
-const initialState: InputState = {
+const initialInputState: InputState = {
   length: "",
   height: "",
+  width: "",
   nInsideCorners: "",
   nOutsideCorners: "",
   n45InsideCorners: "",
   n45OutsideCorners: "",
+  doubleTaperTopLength: "",
+  brickLedgeLength: "",
 };
 
 function openingReducer(state: OpeningState, action: OpeningAction) {
@@ -141,8 +144,6 @@ function wallReducer(state: WallState, action: WallAction) {
         ...updatedWalls.slice(action.payload.index + 1),
       ];
 
-      console.log(updatedWalls);
-
       return { ...state, walls: updatedWalls };
     }
 
@@ -152,15 +153,12 @@ function wallReducer(state: WallState, action: WallAction) {
 }
 
 const initialWallState: WallState = {
-  walls: [
-    { inputState: initialState, openingState: initialOpeningState },
-    // { inputState: initialState, openingState: initialOpeningState },
-  ],
+  walls: [{ inputState: initialInputState, openingState: initialOpeningState }],
 };
 
 export {
   inputReducer,
-  initialState,
+  initialInputState,
   openingReducer,
   initialOpeningState,
   wallReducer,

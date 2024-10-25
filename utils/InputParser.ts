@@ -48,6 +48,7 @@ const parseInput = (text: string, isFeet: boolean, emptyStringIsValid?: boolean)
   ) {
     return parseFeetInchesNotation(text);
   } else {
+    // matches ""
     if (emptyStringIsValid && /^$/.test(text)) {
       return 0;
     }

@@ -7,7 +7,7 @@ interface BlockSpecification {
   height: number; // Inches
   concreteVolume: number; // Cubic yards
   surfaceArea: { ext: number; int: number }; // Square feet
-  qtyPerBundle: number;
+  qtyPerBundle: number; // Number
   return?: { ext: number; int: number }; // Inches
 }
 
@@ -161,11 +161,7 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
 };
 
 function getBlockSpecifications(blockType: BlockType, width: string): BlockSpecification {
-  const block = blockSpecifications[blockType][width];
-  if (!block) {
-    throw new Error(`Block type ${blockType} or specification at length ${width} not found`);
-  }
-  return block;
+  return blockSpecifications[blockType][width];
 }
 
 export default getBlockSpecifications;

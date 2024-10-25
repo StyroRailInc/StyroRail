@@ -19,107 +19,121 @@ interface InputsProps {
 
 const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
   return (
-    <View style={styles.heightInputContainer}>
-      <View style={[styles.inputContainer, { zIndex: 0 }]}>
-        <ResponsiveText title="Hauteur" size={Constants.FONT_SIZE} style={styles.textAlignLeft} />
-        <ResponsiveInput
-          title=""
-          size={Constants.FONT_SIZE}
-          input={inputState.height}
-          inputStyle={styles.inputStyle}
-          setInput={(value) => {
-            dispatch({ type: "setHeight", payload: value });
-          }}
-        />
-      </View>
-
-      <View style={styles.rowContainer}>
-        <View style={[styles.inputContainer]}>
-          <ResponsiveText
-            title="Pieds linéaires"
-            size={Constants.FONT_SIZE}
-            style={styles.textAlignLeft}
-          />
-          <ResponsiveInput
-            title=""
-            size={Constants.FONT_SIZE}
-            input={inputState.length}
-            inputStyle={styles.inputStyle}
-            setInput={(value) => {
-              dispatch({ type: "setLength", payload: value });
-            }}
-          />
+    <View style={styles.container}>
+      <View style={styles.solidBorder}>
+        <View style={styles.legend}>
+          <ResponsiveText title="Dimensions" size={Constants.FONT_SIZE} />
+        </View>
+        <View style={styles.inputsContainer}>
+          <View style={styles.inputContainer}>
+            <ResponsiveText title="Hauteur" size={Constants.FONT_SIZE} />
+            <ResponsiveInput
+              title=""
+              size={Constants.FONT_SIZE}
+              input={inputState.height}
+              inputStyle={styles.inputStyle}
+              setInput={(value) => dispatch({ type: "setHeight", payload: value })}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <ResponsiveText title="Pieds linéaires" size={Constants.FONT_SIZE} />
+            <ResponsiveInput
+              title=""
+              size={Constants.FONT_SIZE}
+              input={inputState.length}
+              inputStyle={styles.inputStyle}
+              setInput={(value) => dispatch({ type: "setLength", payload: value })}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <ResponsiveText title="Largeur" size={Constants.FONT_SIZE} />
+            <ResponsiveInput
+              title=""
+              size={Constants.FONT_SIZE}
+              input={inputState.width}
+              inputStyle={styles.inputStyle}
+              setInput={(value) => dispatch({ type: "setWidth", payload: value })}
+            />
+          </View>
         </View>
       </View>
 
-      <View style={styles.rowContainer}>
-        <View style={[styles.inputContainer, styles.inputHalfWidth]}>
-          <ResponsiveText
-            title="Coins internes"
-            size={Constants.FONT_SIZE}
-            style={styles.textAlignLeft}
-          />
-          <ResponsiveInput
-            title=""
-            size={Constants.FONT_SIZE}
-            input={inputState.nInsideCorners}
-            inputStyle={styles.inputStyle}
-            setInput={(value) => {
-              dispatch({ type: "setNInsideCorners", payload: value });
-            }}
-          />
+      <View style={styles.solidBorder}>
+        <View style={styles.legend}>
+          <ResponsiveText title="Coins" size={Constants.FONT_SIZE} />
         </View>
-
-        <View style={[styles.inputContainer, styles.inputHalfWidth]}>
-          <ResponsiveText
-            title="Coins 45 internes"
-            size={Constants.FONT_SIZE}
-            style={styles.textAlignLeft}
-          />
-          <ResponsiveInput
-            title=""
-            size={Constants.FONT_SIZE}
-            input={inputState.n45InsideCorners}
-            inputStyle={styles.inputStyle}
-            setInput={(value) => {
-              dispatch({ type: "setN45InsideCorners", payload: value });
-            }}
-          />
+        <View style={styles.inputsContainer}>
+          <View style={styles.rowContainer}>
+            <View style={[styles.inputContainer, styles.inputHalfWidth]}>
+              <ResponsiveText title="Internes" size={Constants.FONT_SIZE} />
+              <ResponsiveInput
+                title=""
+                size={Constants.FONT_SIZE}
+                input={inputState.nInsideCorners}
+                inputStyle={styles.inputStyle}
+                setInput={(value) => dispatch({ type: "setNInsideCorners", payload: value })}
+              />
+            </View>
+            <View style={[styles.inputContainer, styles.inputHalfWidth]}>
+              <ResponsiveText title="45 internes" size={Constants.FONT_SIZE} />
+              <ResponsiveInput
+                title=""
+                size={Constants.FONT_SIZE}
+                input={inputState.n45InsideCorners}
+                inputStyle={styles.inputStyle}
+                setInput={(value) => dispatch({ type: "setN45InsideCorners", payload: value })}
+              />
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View style={[styles.inputContainer, styles.inputHalfWidth]}>
+              <ResponsiveText title="Externes" size={Constants.FONT_SIZE} />
+              <ResponsiveInput
+                title=""
+                size={Constants.FONT_SIZE}
+                input={inputState.nOutsideCorners}
+                inputStyle={styles.inputStyle}
+                setInput={(value) => dispatch({ type: "setNOutsideCorners", payload: value })}
+              />
+            </View>
+            <View style={[styles.inputContainer, styles.inputHalfWidth]}>
+              <ResponsiveText title="45 externes" size={Constants.FONT_SIZE} />
+              <ResponsiveInput
+                title=""
+                size={Constants.FONT_SIZE}
+                input={inputState.n45OutsideCorners}
+                inputStyle={styles.inputStyle}
+                setInput={(value) => dispatch({ type: "setN45OutsideCorners", payload: value })}
+              />
+            </View>
+          </View>
         </View>
       </View>
-
-      <View style={styles.rowContainer}>
-        <View style={[styles.inputContainer, styles.inputHalfWidth]}>
-          <ResponsiveText
-            title="Coins externes"
-            size={Constants.FONT_SIZE}
-            style={styles.textAlignLeft}
-          />
-          <ResponsiveInput
-            title=""
-            size={Constants.FONT_SIZE}
-            input={inputState.nOutsideCorners}
-            inputStyle={styles.inputStyle}
-            setInput={(value) => {
-              dispatch({ type: "setNOutsideCorners", payload: value });
-            }}
-          />
+      <View style={styles.solidBorder}>
+        <View style={styles.legend}>
+          <ResponsiveText title="Blocks Spéciaux" size={Constants.FONT_SIZE} />
         </View>
-        <View style={[styles.inputContainer, styles.inputHalfWidth]}>
-          <ResponsiveText
-            title="Coins 45 externes"
-            size={Constants.FONT_SIZE}
-            style={styles.textAlignLeft}
-          />
-          <ResponsiveInput
-            title=""
-            size={Constants.FONT_SIZE}
-            input={inputState.n45OutsideCorners}
-            inputStyle={styles.inputStyle}
-            setInput={(value) => {
-              dispatch({ type: "setN45OutsideCorners", payload: value });
-            }}
-          />
+        <View style={styles.inputsContainer}>
+          <View style={styles.inputContainer}>
+            <ResponsiveText title="Pieds linéares double taper top" size={Constants.FONT_SIZE} />
+            <ResponsiveInput
+              title=""
+              size={Constants.FONT_SIZE}
+              input={inputState.doubleTaperTopLength}
+              inputStyle={styles.inputStyle}
+              setInput={(value) => dispatch({ type: "setDoubleTaperTopLength", payload: value })}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <ResponsiveText title="Pieds linéaires brick ledge" size={Constants.FONT_SIZE} />
+            <ResponsiveInput
+              title=""
+              size={Constants.FONT_SIZE}
+              input={inputState.brickLedgeLength}
+              inputStyle={styles.inputStyle}
+              setInput={(value) => dispatch({ type: "setBrickLedgeLength", payload: value })}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -127,11 +141,27 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
 };
 
 const styles = StyleSheet.create({
-  heightInputContainer: {
+  container: {
     width: "100%",
   },
+  solidBorder: {
+    borderWidth: 2,
+    borderRadius: 4,
+    marginTop: 30,
+    paddingTop: 20,
+  },
+  legend: {
+    paddingHorizontal: 2,
+    position: "absolute",
+    top: -15,
+    left: 20,
+    backgroundColor: "#f0f0f0",
+  },
+  inputsContainer: {
+    marginHorizontal: 20,
+    marginBottom: 25,
+  },
   inputContainer: {
-    width: "100%",
     marginBottom: 0,
     marginTop: 10,
   },
@@ -148,15 +178,10 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: "row",
-    width: "100%",
     justifyContent: "space-between",
   },
   inputHalfWidth: {
-    zIndex: 0,
     width: "49%",
-  },
-  textAlignLeft: {
-    textAlign: "left",
   },
 });
 
