@@ -42,7 +42,7 @@ const parseInput = (text: string, isFeet: boolean, emptyStringIsValid?: boolean)
     /^(\d+)'-?(\d+)"$/.test(text) || // matches 10'-10"
     /^(\d+)'-?(\d+)$/.test(text) || // matches 10'-10
     /^\d+$/.test(text) || // matches 10
-    /^(\d+)'/.test(text) || // matches 10'
+    /^(\d+)'$/.test(text) || // matches 10'
     /^(\d+)"/.test(text) || // matches 10"
     /^(\d+)'?(\d+)"$/.test(text) // matches 10'10"
   ) {

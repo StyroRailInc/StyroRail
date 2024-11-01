@@ -12,12 +12,15 @@ import { Constants } from "@/constants";
 // Type
 import { InputState, InputAction } from "../../types/BBTypes";
 
+// Utility function
+import validateInput from "@/utils/ValidateInput";
+
 interface InputsProps {
   inputState: InputState;
-  dispatch: React.Dispatch<InputAction>;
+  inputDispatch: React.Dispatch<InputAction>;
 }
 
-const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
+const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
   return (
     <View style={styles.container}>
       <View style={styles.solidBorder}>
@@ -32,7 +35,9 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
               size={Constants.FONT_SIZE}
               input={inputState.height}
               inputStyle={styles.inputStyle}
-              setInput={(value) => dispatch({ type: "setHeight", payload: value })}
+              errorMessage={`Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`}
+              setInput={(value) => inputDispatch({ type: "setHeight", payload: value })}
+              validateInput={validateInput}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -42,7 +47,9 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
               size={Constants.FONT_SIZE}
               input={inputState.length}
               inputStyle={styles.inputStyle}
-              setInput={(value) => dispatch({ type: "setLength", payload: value })}
+              errorMessage={`Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`}
+              setInput={(value) => inputDispatch({ type: "setLength", payload: value })}
+              validateInput={validateInput}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -52,7 +59,9 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
               size={Constants.FONT_SIZE}
               input={inputState.width}
               inputStyle={styles.inputStyle}
-              setInput={(value) => dispatch({ type: "setWidth", payload: value })}
+              errorMessage={`Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`}
+              setInput={(value) => inputDispatch({ type: "setWidth", payload: value })}
+              validateInput={validateInput}
             />
           </View>
         </View>
@@ -71,7 +80,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
                 size={Constants.FONT_SIZE}
                 input={inputState.nInsideCorners}
                 inputStyle={styles.inputStyle}
-                setInput={(value) => dispatch({ type: "setNInsideCorners", payload: value })}
+                setInput={(value) => inputDispatch({ type: "setNInsideCorners", payload: value })}
               />
             </View>
             <View style={[styles.inputContainer, styles.inputHalfWidth]}>
@@ -81,7 +90,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
                 size={Constants.FONT_SIZE}
                 input={inputState.n45InsideCorners}
                 inputStyle={styles.inputStyle}
-                setInput={(value) => dispatch({ type: "setN45InsideCorners", payload: value })}
+                setInput={(value) => inputDispatch({ type: "setN45InsideCorners", payload: value })}
               />
             </View>
           </View>
@@ -93,7 +102,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
                 size={Constants.FONT_SIZE}
                 input={inputState.nOutsideCorners}
                 inputStyle={styles.inputStyle}
-                setInput={(value) => dispatch({ type: "setNOutsideCorners", payload: value })}
+                setInput={(value) => inputDispatch({ type: "setNOutsideCorners", payload: value })}
               />
             </View>
             <View style={[styles.inputContainer, styles.inputHalfWidth]}>
@@ -103,7 +112,9 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
                 size={Constants.FONT_SIZE}
                 input={inputState.n45OutsideCorners}
                 inputStyle={styles.inputStyle}
-                setInput={(value) => dispatch({ type: "setN45OutsideCorners", payload: value })}
+                setInput={(value) =>
+                  inputDispatch({ type: "setN45OutsideCorners", payload: value })
+                }
               />
             </View>
           </View>
@@ -121,7 +132,9 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
               size={Constants.FONT_SIZE}
               input={inputState.doubleTaperTopLength}
               inputStyle={styles.inputStyle}
-              setInput={(value) => dispatch({ type: "setDoubleTaperTopLength", payload: value })}
+              setInput={(value) =>
+                inputDispatch({ type: "setDoubleTaperTopLength", payload: value })
+              }
             />
           </View>
           <View style={styles.inputContainer}>
@@ -131,7 +144,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, dispatch }) => {
               size={Constants.FONT_SIZE}
               input={inputState.brickLedgeLength}
               inputStyle={styles.inputStyle}
-              setInput={(value) => dispatch({ type: "setBrickLedgeLength", payload: value })}
+              setInput={(value) => inputDispatch({ type: "setBrickLedgeLength", payload: value })}
             />
           </View>
         </View>

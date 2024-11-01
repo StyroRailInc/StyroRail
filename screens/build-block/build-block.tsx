@@ -42,9 +42,9 @@ const BuildBlock: React.FC = () => {
   useWindowDimensions(Constants.SCROLLVIEW_WIDTH_PERCENTAGE, setWindowWidth);
   useWindowDimensions(Constants.APP_SCREEN_WIDTH_PERCENTAGE, setAppScreenWidth);
 
-  const [inputState, dispatchInput] = useReducer(inputReducer, initialInputState);
-  const [openingState, dispatchOpening] = useReducer(openingReducer, initialOpeningState);
-  const [wallState, dispatchWall] = useReducer(wallReducer, initialWallState);
+  const [inputState, inputDispatch] = useReducer(inputReducer, initialInputState);
+  const [openingState, openingDispatch] = useReducer(openingReducer, initialOpeningState);
+  const [wallState, wallDispatch] = useReducer(wallReducer, initialWallState);
 
   const [isResultVisible, setIsResultVisible] = useState<boolean>(false);
 
@@ -110,12 +110,12 @@ const BuildBlock: React.FC = () => {
             wallState={wallState}
             openingState={openingState}
             inputState={inputState}
-            wallReducer={dispatchWall}
-            openingReducer={dispatchOpening}
-            inputReducer={dispatchInput}
+            wallDispatch={wallDispatch}
+            openingDispatch={openingDispatch}
+            inputDispatch={inputDispatch}
           />
-          <Inputs inputState={inputState} dispatch={dispatchInput} />
-          <Openings openingState={openingState} openingReducer={dispatchOpening} />
+          <Inputs inputState={inputState} inputDispatch={inputDispatch} />
+          <Openings openingState={openingState} openingReducer={openingDispatch} />
           <ResponsiveButton
             title="Calculer"
             size={Constants.FONT_SIZE}

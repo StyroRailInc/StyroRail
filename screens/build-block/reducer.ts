@@ -28,6 +28,10 @@ function inputReducer(state: InputState, action: InputAction) {
       return { ...state, doubleTaperTopLength: action.payload };
     case "setBrickLedgeLength":
       return { ...state, brickLedgeLength: action.payload };
+    case "resetInputs":
+      return { ...initialInputState };
+    case "setInputs":
+      return { ...action.payload };
     default:
       return state;
   }

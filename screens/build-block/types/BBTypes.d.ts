@@ -32,7 +32,22 @@ export type InputAction =
   | { type: "setN45OutsideCorners"; payload: string }
   | { type: "setN45InsideCorners"; payload: string }
   | { type: "setBrickLedgeLength"; payload: string }
-  | { type: "setDoubleTaperTopLength"; payload: string };
+  | { type: "setDoubleTaperTopLength"; payload: string }
+  | { type: "resetInputs" }
+  | {
+      type: "setInputs";
+      payload: {
+        length: string;
+        height: string;
+        width: string;
+        nInsideCorners: string;
+        nOutsideCorners: string;
+        n45InsideCorners: string;
+        n45OutsideCorners: string;
+        brickLedgeLength: string;
+        doubleTaperTopLength: string;
+      };
+    };
 
 export type OpeningState = {
   openings: { width: string; height: string; quantity: string }[];

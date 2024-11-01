@@ -47,7 +47,7 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   const [validationMessage, setValidationMessage] = useState<string | null>();
   const [inputColor, setInputColor] = useState<string>("#2e4459");
 
-  const validate = (input: string) => {
+  const validate = () => {
     const isValid = validateInput(input);
     if (!isValid) {
       setValidationMessage(errorMessage);
@@ -59,7 +59,7 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TextInput
         style={[
           styles.input,
@@ -75,15 +75,8 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
         inputMode="text"
         placeholder={title}
         blurOnSubmit={false}
-        onChangeText={
-          validationMessage
-            ? (text) => {
-                setInput(text);
-                validate(text);
-              }
-            : (text) => setInput(text)
-        }
-        onBlur={() => validate(input)}
+        onChangeText={(text) => setInput(text)}
+        onBlur={validate}
       />
       {validationMessage && (
         <ResponsiveText
@@ -97,11 +90,6 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
   input: {
     minWidth: 0,
     minHeight: 0,
@@ -113,7 +101,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingVertical: 0,
     textAlignVertical: "center",
-    width: "100%",
   },
 });
 

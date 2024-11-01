@@ -70,27 +70,25 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       </Pressable>
       {isDropdownMenuOpen && (
         <View style={[styles.dropdown, { maxHeight: maxDropdownHeight }]}>
-          <ScrollView style={[styles.scrollContainer]} nestedScrollEnabled={true}>
-            {options.map((option, index) => {
-              const isSelected = option === selectedOptionText;
-              return !isSelected ? (
-                <Pressable
-                  key={index}
-                  style={[styles.dropdownOption, headerStyle]}
-                  onPress={() => handleOptionPress(option)}
-                  onLayout={(event) => {
-                    setOptionHeight(event.nativeEvent.layout.height);
-                  }}
-                >
-                  <ResponsiveText
-                    title={option}
-                    size={fontSize}
-                    style={[textStyle ? textStyle : styles.text, { color: "white" }]}
-                  />
-                </Pressable>
-              ) : null;
-            })}
-          </ScrollView>
+          {options.map((option, index) => {
+            const isSelected = option === selectedOptionText;
+            return !isSelected ? (
+              <Pressable
+                key={index}
+                style={[styles.dropdownOption, headerStyle]}
+                onPress={() => handleOptionPress(option)}
+                onLayout={(event) => {
+                  setOptionHeight(event.nativeEvent.layout.height);
+                }}
+              >
+                <ResponsiveText
+                  title={option}
+                  size={fontSize}
+                  style={[textStyle ? textStyle : styles.text, { color: "white" }]}
+                />
+              </Pressable>
+            ) : null;
+          })}
         </View>
       )}
     </View>
@@ -114,11 +112,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1001,
     backgroundColor: "#fff",
-  },
-  scrollContainer: {
-    flex: 1,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    overflow: "scroll",
   },
   dropdownOption: {
     flexDirection: "row",
