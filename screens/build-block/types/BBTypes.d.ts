@@ -21,6 +21,9 @@ export type InputState = {
   n45OutsideCorners: string;
   doubleTaperTopLength: string;
   brickLedgeLength: string;
+  isValidLength: boolean;
+  isValidHeight: boolean;
+  isValidWidth: boolean;
 };
 
 export type InputAction =
@@ -47,7 +50,10 @@ export type InputAction =
         brickLedgeLength: string;
         doubleTaperTopLength: string;
       };
-    };
+    }
+  | { type: "setIsValidLength"; payload: { isValid: boolean } }
+  | { type: "setIsValidHeight"; payload: { isValid: boolean } }
+  | { type: "setIsValidWidth"; payload: { isValid: boolean } };
 
 export type OpeningState = {
   openings: { width: string; height: string; quantity: string }[];

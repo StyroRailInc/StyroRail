@@ -18,18 +18,18 @@ interface ResponsiveInputProps {
   title: string;
   size: number;
   input: string;
+  isValid?: boolean;
   inputStyle?: TextStyle | TextStyle[];
-  errorMessage: string;
   setInput: React.Dispatch<any>;
-  validateInput: (input: string, emptyStringIsValid?: boolean) => {};
+  validateInput: (input: string) => string | null;
 }
 
 const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   title,
   size,
   input,
+  isValid,
   inputStyle,
-  errorMessage,
   setInput,
   validateInput,
 }) => {
@@ -48,29 +48,27 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   const [inputColor, setInputColor] = useState<string>("#2e4459");
 
   const validate = (input: string) => {
-    const isValid = validateInput(input);
-    if (!isValid) {
-      setValidationMessage(errorMessage);
+    const message = validateInput(input);
+    if (message) {
       setInputColor("red");
     } else {
-      setValidationMessage(null);
       setInputColor("#2e4459");
     }
+    setValidationMessage(message);
+  };
+
+  const calculatedStyle = {
+    fontSize: textFontSize,
+    includeFontPadding: false,
+    height: textFontSize * Constants.INPUT_HEIGHT_ADJUSTMENT_FACTOR,
+    color: inputColor,
+    borderColor: isValid ? undefined : "red",
   };
 
   return (
     <View style={styles.container}>
       <TextInput
-        style={[
-          styles.input,
-          inputStyle,
-          {
-            fontSize: textFontSize,
-            includeFontPadding: false,
-            height: textFontSize * Constants.INPUT_HEIGHT_ADJUSTMENT_FACTOR,
-            color: inputColor,
-          },
-        ]}
+        style={[styles.input, inputStyle, calculatedStyle]}
         value={input}
         inputMode="text"
         placeholder={title}
@@ -89,7 +87,7 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
         <ResponsiveText
           title={validationMessage}
           size={Constants.FONT_SIZE}
-          style={{ color: "red" }}
+          style={{ color: "red", overflow: "visible" }}
         />
       )}
     </View>

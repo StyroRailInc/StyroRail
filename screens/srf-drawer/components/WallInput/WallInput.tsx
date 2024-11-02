@@ -12,6 +12,9 @@ import { InputState } from "@/screens/srf-drawer/types/inputState";
 // Constants
 import { Constants } from "@/constants";
 
+// Utility functions
+import validateInput from "@/utils/ValidateInput";
+
 interface WallInputProps {
   inputState: InputState;
   style?: ViewStyle;
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 6,
+    paddingHorizontal: 12,
   },
   divider: {
     borderLeftWidth: 1,
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#00aaef",
     borderRadius: 4,
-    width: "70%",
+    // width: "70%",
     textAlign: "center",
   },
   label: {

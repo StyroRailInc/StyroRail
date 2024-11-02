@@ -13,7 +13,7 @@ import { Constants } from "@/constants";
 import { InputState, InputAction } from "../../types/BBTypes";
 
 // Utility function
-import validateInput from "@/utils/ValidateInput";
+import { validateImperialInput, validateIntegerInput } from "@/utils/ValidateInput";
 
 interface InputsProps {
   inputState: InputState;
@@ -34,10 +34,10 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               title=""
               size={Constants.FONT_SIZE}
               input={inputState.height}
+              isValid={inputState.isValidHeight}
               inputStyle={styles.inputStyle}
-              errorMessage={`Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`}
               setInput={(value) => inputDispatch({ type: "setHeight", payload: value })}
-              validateInput={validateInput}
+              validateInput={validateImperialInput}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -46,10 +46,10 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               title=""
               size={Constants.FONT_SIZE}
               input={inputState.length}
+              isValid={inputState.isValidLength}
               inputStyle={styles.inputStyle}
-              errorMessage={`Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`}
               setInput={(value) => inputDispatch({ type: "setLength", payload: value })}
-              validateInput={validateInput}
+              validateInput={validateImperialInput}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -58,10 +58,10 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               title=""
               size={Constants.FONT_SIZE}
               input={inputState.width}
+              isValid={inputState.isValidWidth}
               inputStyle={styles.inputStyle}
-              errorMessage={`Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`}
               setInput={(value) => inputDispatch({ type: "setWidth", payload: value })}
-              validateInput={validateInput}
+              validateInput={validateImperialInput}
             />
           </View>
         </View>
@@ -81,6 +81,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
                 input={inputState.nInsideCorners}
                 inputStyle={styles.inputStyle}
                 setInput={(value) => inputDispatch({ type: "setNInsideCorners", payload: value })}
+                validateInput={validateIntegerInput}
               />
             </View>
             <View style={[styles.inputContainer, styles.inputHalfWidth]}>
@@ -91,6 +92,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
                 input={inputState.n45InsideCorners}
                 inputStyle={styles.inputStyle}
                 setInput={(value) => inputDispatch({ type: "setN45InsideCorners", payload: value })}
+                validateInput={validateIntegerInput}
               />
             </View>
           </View>
@@ -103,6 +105,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
                 input={inputState.nOutsideCorners}
                 inputStyle={styles.inputStyle}
                 setInput={(value) => inputDispatch({ type: "setNOutsideCorners", payload: value })}
+                validateInput={validateIntegerInput}
               />
             </View>
             <View style={[styles.inputContainer, styles.inputHalfWidth]}>
@@ -115,6 +118,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
                 setInput={(value) =>
                   inputDispatch({ type: "setN45OutsideCorners", payload: value })
                 }
+                validateInput={validateIntegerInput}
               />
             </View>
           </View>
@@ -135,6 +139,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               setInput={(value) =>
                 inputDispatch({ type: "setDoubleTaperTopLength", payload: value })
               }
+              validateInput={validateImperialInput}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -145,6 +150,7 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               input={inputState.brickLedgeLength}
               inputStyle={styles.inputStyle}
               setInput={(value) => inputDispatch({ type: "setBrickLedgeLength", payload: value })}
+              validateInput={validateImperialInput}
             />
           </View>
         </View>

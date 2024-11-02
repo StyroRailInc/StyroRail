@@ -1,4 +1,4 @@
-const validateInput = (text: string, emptyStringIsValid?: boolean): boolean => {
+export function validateImperialInput(text: string): string | null {
   if (
     /^(\d+)-(\d+)"$/.test(text) || // matches 10-10"
     /^(\d+)-(\d+)$/.test(text) || // matches 10-10
@@ -7,16 +7,17 @@ const validateInput = (text: string, emptyStringIsValid?: boolean): boolean => {
     /^\d+$/.test(text) || // matches 10
     /^(\d+)'$/.test(text) || // matches 10'
     /^(\d+)"/.test(text) || // matches 10"
-    /^(\d+)'?(\d+)"$/.test(text) // matches 10'10"
+    /^(\d+)'?(\d+)"$/.test(text) || // matches 10'10"
+    /^$/.test(text) // matches ""
   ) {
-    return true;
-  } else {
-    // matches ""
-    if (emptyStringIsValid && /^$/.test(text)) {
-      return true;
-    }
-    return false;
+    return null;
   }
-};
+  return `Format: 8, 8', 4", 8-4, 8'-4, 8-4", 8'-4", 8'4"`;
+}
 
-export default validateInput;
+export function validateIntegerInput(text: string): string | null {
+  if (/^\d+$/.test(text) || /^$/.test(text)) {
+    return null;
+  }
+  return "Entrez un nombre entier";
+}

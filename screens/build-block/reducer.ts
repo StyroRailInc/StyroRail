@@ -32,6 +32,12 @@ function inputReducer(state: InputState, action: InputAction) {
       return { ...initialInputState };
     case "setInputs":
       return { ...action.payload };
+    case "setIsValidLength":
+      return { ...state, isValidLength: action.payload };
+    case "setIsValidHeight":
+      return { ...state, isValidHeight: action.payload };
+    case "setIsValidWidth":
+      return { ...state, isValidWidth: action.payload };
     default:
       return state;
   }
@@ -47,6 +53,9 @@ const initialInputState: InputState = {
   n45OutsideCorners: "",
   doubleTaperTopLength: "",
   brickLedgeLength: "",
+  isValidLength: false,
+  isValidHeight: false,
+  isValidWidth: false,
 };
 
 function openingReducer(state: OpeningState, action: OpeningAction) {

@@ -13,11 +13,8 @@ import { Constants } from "@/constants";
 // Type
 import { OpeningState, OpeningAction } from "../../types/BBTypes";
 
-// Classes
-import Opening from "../../utils/BBCalculator/Opening";
-
-// Utility functions
-import { parseInput, parseIntegerInput } from "@/utils/InputParser";
+// Utility function
+import { validateImperialInput, validateIntegerInput } from "@/utils/ValidateInput";
 
 interface OpeningProps {
   openingState: OpeningState;
@@ -68,6 +65,7 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
                   payload: { index: index, attribute: "width", value: value },
                 });
               }}
+              validateInput={validateImperialInput}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -82,6 +80,7 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
                   payload: { index: index, attribute: "height", value: value },
                 });
               }}
+              validateInput={validateImperialInput}
             />
           </View>
           <View style={[styles.inputContainer]}>
@@ -96,6 +95,7 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
                   payload: { index: index, attribute: "quantity", value: value },
                 });
               }}
+              validateInput={validateIntegerInput}
             />
           </View>
         </View>
