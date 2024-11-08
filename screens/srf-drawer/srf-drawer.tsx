@@ -7,7 +7,7 @@ import { LeftArrow, RightArrow } from "@/screens/srf-drawer/components/Arrows";
 import ResponsiveButton from "@/components/ResponsiveButton";
 import ResponsiveText from "@/components/ResponsiveText";
 import SettingsComponent from "@/screens/srf-drawer/components/Settings";
-import PanelsDisplay from "@/components/PanelDisplay";
+import PanelsDisplay from "@/components/PanelsDisplay";
 import LineDrawer from "@/screens/srf-drawer/components/LineDrawer";
 import WallInput from "@/screens/srf-drawer/components/WallInput";
 import WallRows from "@/screens/srf-drawer/components/WallRows";

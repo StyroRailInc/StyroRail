@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, View, Pressable, StyleSheet, ScrollView } from "react-native";
 
 // Components
-import ResponsiveInput from "@/components/ResponsiveInput/ResponsiveInput";
+import ResponsiveInput from "@/components/ResponsiveInput";
 import ResponsiveText from "@/components/ResponsiveText";
 import ResponsiveButton from "@/components/ResponsiveButton";
 import DropdownMenu from "@/components/DropdownMenu";

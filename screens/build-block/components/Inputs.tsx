@@ -10,7 +10,7 @@ import ResponsiveInput from "@/components/ResponsiveInput";
 import { Constants } from "@/constants";
 
 // Type
-import { InputState, InputAction } from "../../types/BBTypes";
+import { InputState, InputAction } from "../types/BBTypes";
 
 // Utility function
 import { validateImperialInput, validateIntegerInput } from "@/utils/ValidateInput";
@@ -34,10 +34,13 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               title=""
               size={Constants.FONT_SIZE}
               input={inputState.height}
-              isValid={inputState.isValidHeight}
+              isValidInput={inputState.isValidHeight}
               inputStyle={styles.inputStyle}
               setInput={(value) => inputDispatch({ type: "setHeight", payload: value })}
               validateInput={validateImperialInput}
+              setIsValidInput={(value) =>
+                inputDispatch({ type: "setIsValidHeight", payload: value })
+              }
             />
           </View>
           <View style={styles.inputContainer}>
@@ -46,10 +49,13 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               title=""
               size={Constants.FONT_SIZE}
               input={inputState.length}
-              isValid={inputState.isValidLength}
+              isValidInput={inputState.isValidLength}
               inputStyle={styles.inputStyle}
               setInput={(value) => inputDispatch({ type: "setLength", payload: value })}
               validateInput={validateImperialInput}
+              setIsValidInput={(value) =>
+                inputDispatch({ type: "setIsValidLength", payload: value })
+              }
             />
           </View>
           <View style={styles.inputContainer}>
@@ -58,10 +64,13 @@ const Inputs: React.FC<InputsProps> = ({ inputState, inputDispatch }) => {
               title=""
               size={Constants.FONT_SIZE}
               input={inputState.width}
-              isValid={inputState.isValidWidth}
+              isValidInput={inputState.isValidWidth}
               inputStyle={styles.inputStyle}
               setInput={(value) => inputDispatch({ type: "setWidth", payload: value })}
               validateInput={validateImperialInput}
+              setIsValidInput={(value) =>
+                inputDispatch({ type: "setIsValidWidth", payload: value })
+              }
             />
           </View>
         </View>

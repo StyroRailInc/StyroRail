@@ -8,7 +8,7 @@ import {
   WallAction,
 } from "./types/BBTypes";
 
-function inputReducer(state: InputState, action: InputAction) {
+function inputReducer(state: InputState, action: InputAction): InputState {
   switch (action.type) {
     case "setLength":
       return { ...state, length: action.payload };
@@ -53,9 +53,9 @@ const initialInputState: InputState = {
   n45OutsideCorners: "",
   doubleTaperTopLength: "",
   brickLedgeLength: "",
-  isValidLength: false,
-  isValidHeight: false,
-  isValidWidth: false,
+  isValidLength: true,
+  isValidHeight: true,
+  isValidWidth: true,
 };
 
 function openingReducer(state: OpeningState, action: OpeningAction) {
@@ -160,6 +160,9 @@ function wallReducer(state: WallState, action: WallAction) {
       return { ...state, walls: updatedWalls };
     }
 
+    case "setPressedWallIndex":
+      return { ...state, pressedWallIndex: action.payload };
+
     default:
       return state;
   }
@@ -167,6 +170,7 @@ function wallReducer(state: WallState, action: WallAction) {
 
 const initialWallState: WallState = {
   walls: [{ inputState: initialInputState, openingState: initialOpeningState }],
+  pressedWallIndex: 0,
 };
 
 export {

@@ -1,5 +1,5 @@
 // React imports
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useRef } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 
 // Custom hooks
@@ -34,6 +34,10 @@ import {
 
 // Utility functions
 import { parseInput, parseIntegerInput } from "@/utils/InputParser";
+import { InputAction } from "./types/BBTypes";
+
+// Helper functions
+// import { validateInput } from "./helpers";
 
 const BuildBlock: React.FC = () => {
   const [appScreenWidth, setAppScreenWidth] = useState<number>();
@@ -47,6 +51,53 @@ const BuildBlock: React.FC = () => {
   const [wallState, wallDispatch] = useReducer(wallReducer, initialWallState);
 
   const [isResultVisible, setIsResultVisible] = useState<boolean>(false);
+
+  const scrollViewRef = useRef(null);
+
+  const validateInput = (i: number, inputAction: InputAction, input: string) => {
+    try {
+      return parseInput(input, true, false);
+    } catch (error) {
+      wallDispatch({ type: "setPressedWallIndex", payload: i });
+      inputDispatch(inputAction);
+      scrollViewRef.current.scrollTo({
+        y: 0,
+        animated: true,
+      });
+    }
+  };
+
+  const validateAndScroll = () => {
+    for (let i = 0; i < wallState.walls.length; i++) {
+      const validatedHeight = validateInput(
+        i,
+        {
+          type: "setIsValidHeight",
+          payload: false,
+        },
+        wallState.walls[i].inputState.height
+      );
+      const validatedLength = validateInput(
+        i,
+        {
+          type: "setIsValidLength",
+          payload: false,
+        },
+        wallState.walls[i].inputState.length
+      );
+      const validatedWidth = validateInput(
+        i,
+        {
+          type: "setIsValidWidth",
+          payload: false,
+        },
+        wallState.walls[i].inputState.width
+      );
+      if (!(validatedHeight && validatedLength && validatedWidth)) {
+        break;
+      }
+    }
+  };
 
   const handleCalculatePress = () => {
     try {
@@ -102,6 +153,7 @@ const BuildBlock: React.FC = () => {
         contentContainerStyle={[styles.scrollContent, { minWidth: windowWidth }]}
         keyboardShouldPersistTaps={"always"}
         showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
       >
         <View
           style={[styles.pageContent, { width: appScreenWidth, maxWidth: Constants.APP_MAX_WIDTH }]}
@@ -115,12 +167,12 @@ const BuildBlock: React.FC = () => {
             inputDispatch={inputDispatch}
           />
           <Inputs inputState={inputState} inputDispatch={inputDispatch} />
-          <Openings openingState={openingState} openingReducer={openingDispatch} />
+          <Openings openingState={openingState} openingDispatch={openingDispatch} />
           <ResponsiveButton
             title="Calculer"
             size={Constants.FONT_SIZE}
             style={{ margin: 20 }}
-            handlePress={handleCalculatePress}
+            handlePress={validateAndScroll}
           />
         </View>
       </ScrollView>

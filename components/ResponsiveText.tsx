@@ -42,7 +42,7 @@ const ResponsiveText: React.FC<ResponsiveTextProps> = ({ title, size, style, hea
 const styles = StyleSheet.create({
   text: {
     includeFontPadding: false,
-    textAlignVertical: "center",
+    verticalAlign: "middle",
     fontFamily: "Poppins-Bold",
     color: "#2e4459",
     paddingVertical: 0,

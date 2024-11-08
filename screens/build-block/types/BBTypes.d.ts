@@ -49,11 +49,14 @@ export type InputAction =
         n45OutsideCorners: string;
         brickLedgeLength: string;
         doubleTaperTopLength: string;
+        isValidLength: boolean;
+        isValidHeight: boolean;
+        isValidWidth: boolean;
       };
     }
-  | { type: "setIsValidLength"; payload: { isValid: boolean } }
-  | { type: "setIsValidHeight"; payload: { isValid: boolean } }
-  | { type: "setIsValidWidth"; payload: { isValid: boolean } };
+  | { type: "setIsValidLength"; payload: boolean }
+  | { type: "setIsValidHeight"; payload: boolean }
+  | { type: "setIsValidWidth"; payload: boolean };
 
 export type OpeningState = {
   openings: { width: string; height: string; quantity: string }[];
@@ -73,6 +76,7 @@ export type OpeningAction =
 
 export type WallState = {
   walls: { inputState: InputState; openingState: OpeningState }[];
+  pressedWallIndex: number;
 };
 
 export type WallAction =
@@ -89,4 +93,5 @@ export type WallAction =
       payload: {
         index: number;
       };
-    };
+    }
+  | { type: "setPressedWallIndex"; payload: number };

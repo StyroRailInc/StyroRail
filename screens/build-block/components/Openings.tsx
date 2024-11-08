@@ -11,21 +11,19 @@ import ResponsiveButton from "@/components/ResponsiveButton";
 import { Constants } from "@/constants";
 
 // Type
-import { OpeningState, OpeningAction } from "../../types/BBTypes";
+import { OpeningState, OpeningAction } from "../types/BBTypes";
 
 // Utility function
 import { validateImperialInput, validateIntegerInput } from "@/utils/ValidateInput";
 
 interface OpeningProps {
   openingState: OpeningState;
-  openingReducer: React.Dispatch<OpeningAction>;
+  openingDispatch: React.Dispatch<OpeningAction>;
 }
 
-const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
+const Openings: React.FC<OpeningProps> = ({ openingState, openingDispatch }) => {
   const handleAddOpeningPress = () => {
-    console.log(openingState);
-
-    openingReducer({
+    openingDispatch({
       type: "addOpening",
       payload: {
         width: "",
@@ -60,7 +58,7 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
               size={Constants.FONT_SIZE}
               inputStyle={styles.inputStyle}
               setInput={(value) => {
-                openingReducer({
+                openingDispatch({
                   type: "modifyOpening",
                   payload: { index: index, attribute: "width", value: value },
                 });
@@ -75,7 +73,7 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
               size={Constants.FONT_SIZE}
               inputStyle={styles.inputStyle}
               setInput={(value) => {
-                openingReducer({
+                openingDispatch({
                   type: "modifyOpening",
                   payload: { index: index, attribute: "height", value: value },
                 });
@@ -90,7 +88,7 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingReducer }) => {
               size={Constants.FONT_SIZE}
               inputStyle={styles.inputStyle}
               setInput={(value) => {
-                openingReducer({
+                openingDispatch({
                   type: "modifyOpening",
                   payload: { index: index, attribute: "quantity", value: value },
                 });

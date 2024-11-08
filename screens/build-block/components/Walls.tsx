@@ -16,10 +16,10 @@ import {
   InputState,
   OpeningAction,
   InputAction,
-} from "../../types/BBTypes";
+} from "../types/BBTypes";
 
 // Reducer
-import { initialOpeningState, initialInputState } from "../../reducer";
+import { initialOpeningState, initialInputState } from "../reducer";
 
 interface WallsProps {
   wallState: WallState;
@@ -38,7 +38,7 @@ const Walls: React.FC<WallsProps> = ({
   openingDispatch,
   inputDispatch,
 }) => {
-  const pressedWallIndex = useRef(0);
+  // const pressedWallIndex = useRef(0);
 
   const handleAddWallPress = (index: number) => {
     wallDispatch({
@@ -46,10 +46,10 @@ const Walls: React.FC<WallsProps> = ({
       payload: {
         inputState: inputState,
         openingState: openingState,
-        index: pressedWallIndex.current,
+        index: wallState.pressedWallIndex,
       },
     });
-    pressedWallIndex.current = index;
+    wallDispatch({ type: "setPressedWallIndex", payload: index });
     resetInputs();
     wallDispatch({
       type: "addWall",
@@ -80,10 +80,18 @@ const Walls: React.FC<WallsProps> = ({
         n45OutsideCorners: wallState.walls[index].inputState.n45OutsideCorners,
         brickLedgeLength: wallState.walls[index].inputState.brickLedgeLength,
         doubleTaperTopLength: wallState.walls[index].inputState.doubleTaperTopLength,
+        isValidLength: wallState.walls[index].inputState.isValidLength,
+        isValidHeight: wallState.walls[index].inputState.isValidHeight,
+        isValidWidth: wallState.walls[index].inputState.isValidWidth,
       },
     });
     openingDispatch({ type: "setOpenings", payload: wallState.walls[index].openingState });
   };
+
+  useEffect(() => {
+    console.log(initialInputState.isValidHeight);
+    updateInputs(wallState.pressedWallIndex);
+  }, [wallState.pressedWallIndex]);
 
   const handleWallPress = (index: number) => {
     wallDispatch({
@@ -91,11 +99,11 @@ const Walls: React.FC<WallsProps> = ({
       payload: {
         inputState: inputState,
         openingState: openingState,
-        index: pressedWallIndex.current,
+        index: wallState.pressedWallIndex,
       },
     });
-    pressedWallIndex.current = index;
-    updateInputs(index);
+    wallDispatch({ type: "setPressedWallIndex", payload: index });
+    // updateInputs(index);
   };
 
   useEffect(() => {
@@ -104,32 +112,32 @@ const Walls: React.FC<WallsProps> = ({
       payload: {
         inputState: inputState,
         openingState: openingState,
-        index: pressedWallIndex.current,
+        index: wallState.pressedWallIndex,
       },
     });
   }, [inputState, openingState]);
 
   const handleDeletePress = () => {
-    if (pressedWallIndex.current === 0) {
+    if (wallState.pressedWallIndex === 0) {
       if (wallState.walls.length > 1) {
-        wallDispatch({ type: "deleteWall", payload: { index: pressedWallIndex.current } });
-        updateInputs(pressedWallIndex.current + 1);
+        wallDispatch({ type: "deleteWall", payload: { index: wallState.pressedWallIndex } });
+        updateInputs(wallState.pressedWallIndex + 1);
       } else {
         wallDispatch({
           type: "modifyWall",
           payload: {
             inputState: initialInputState,
             openingState: initialOpeningState,
-            index: pressedWallIndex.current,
+            index: wallState.pressedWallIndex,
           },
         });
         resetInputs();
       }
-      pressedWallIndex.current = 0;
+      wallDispatch({ type: "setPressedWallIndex", payload: 0 });
     } else {
-      wallDispatch({ type: "deleteWall", payload: { index: pressedWallIndex.current } });
-      pressedWallIndex.current = pressedWallIndex.current - 1;
-      updateInputs(pressedWallIndex.current);
+      wallDispatch({ type: "deleteWall", payload: { index: wallState.pressedWallIndex } });
+      wallDispatch({ type: "setPressedWallIndex", payload: wallState.pressedWallIndex - 1 });
+      // updateInputs(wallState.pressedWallIndex - 1);
     }
   };
 
@@ -137,7 +145,7 @@ const Walls: React.FC<WallsProps> = ({
     <View style={styles.container}>
       {wallState.walls.map((wall, index) => (
         <View key={index} style={styles.wallContainer}>
-          {index === pressedWallIndex.current ? (
+          {index === wallState.pressedWallIndex ? (
             <ResponsiveButton
               title={`Mur ${index + 1}`}
               size={0}

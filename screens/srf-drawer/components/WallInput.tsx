@@ -4,16 +4,13 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 
 // Components
 import ResponsiveText from "@/components/ResponsiveText";
-import ResponsiveInput from "@/components/ResponsiveInput/ResponsiveInput";
+import ResponsiveInput from "@/components/ResponsiveInput";
 
 // Types
 import { InputState } from "@/screens/srf-drawer/types/inputState";
 
 // Constants
 import { Constants } from "@/constants";
-
-// Utility functions
-import validateInput from "@/utils/ValidateInput";
 
 interface WallInputProps {
   inputState: InputState;

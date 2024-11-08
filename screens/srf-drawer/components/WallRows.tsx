@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 // Component
-import WallRow from "../WallRow/WallRow";
+import WallRow from "./WallRow";
 
 // Types
 import { FoundationState } from "@/screens/srf-drawer/types/foundationState";

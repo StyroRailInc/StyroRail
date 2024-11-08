@@ -4,7 +4,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 
 // Components
 import Form from "@/components/Form";
-import PanelsDisplay from "@/components/PanelDisplay";
+import PanelsDisplay from "@/components/PanelsDisplay";
 import ResponsiveText from "@/components/ResponsiveText";
 import ResponsiveButton from "@/components/ResponsiveButton";
 import HeightRows from "@/screens/linear-srf/components/HeightRows";

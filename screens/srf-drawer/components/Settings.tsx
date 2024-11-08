@@ -5,7 +5,7 @@ import { Modal, View, Pressable, StyleSheet } from "react-native";
 // Components
 import ImageButton from "@/components/ImageButton";
 import DropdownMenu from "@/components/DropdownMenu";
-import ResponsiveInput from "@/components/ResponsiveInput/ResponsiveInput";
+import ResponsiveInput from "@/components/ResponsiveInput";
 import ResponsiveText from "@/components/ResponsiveText";
 import CheckBox from "@/components/CheckBox";
 

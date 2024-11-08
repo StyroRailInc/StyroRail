@@ -1,38 +1,46 @@
 // React imports
-import React, { useEffect } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 
 // Components
 import ResponsiveText from "@/components/ResponsiveText";
-import ImageButton from "@/components/ImageButton/ImageButton";
+import ImageButton from "@/components/ImageButton";
 
 // Utility functions
 import { inchesToFeet } from "@/utils/InputParser";
+import { growBy } from "@/animations/growBy";
 
 // Constants
 import { Constants, icons } from "@/constants";
 
-// Animations
-import { fadeInSlide } from "@/animations/fadeInSlide";
-import { growBy } from "@/animations/growBy";
-
-// Types
-import { FoundationState } from "@/screens/srf-drawer/types/foundationState";
+// Custom hooks
 import { VisibilityState } from "@/types/visibilityState";
 
-interface WallRowProps {
-  foundationState: FoundationState;
+// Types
+import { Heights } from "@/types/generalTypes";
+
+// Animations
+import { fadeInSlide } from "@/animations/fadeInSlide";
+
+interface HeightRowProps {
   visibilityState: VisibilityState;
-  wallIndex: number;
-  removeWall: (wallIndex: number) => void;
+  heights: Heights;
+  height: number;
+  heightIndex: number;
+  heightRowPressedIndex: number | null;
+  removeHeight: (heightIndex: number) => void;
+  setHeightRowPressedIndex: React.Dispatch<SetStateAction<number | null>>;
 }
 
-const WallRow: React.FC<WallRowProps> = ({
-  foundationState,
+const HeightRow: React.FC<HeightRowProps> = ({
   visibilityState,
-  wallIndex,
-  removeWall,
+  heights,
+  height,
+  heightIndex,
+  heightRowPressedIndex,
+  removeHeight,
+  setHeightRowPressedIndex,
 }) => {
   const offset = useSharedValue(Constants.NEGATIVE_OFFSET);
   const opacity = useSharedValue(Constants.NO_OPACITY);
@@ -48,51 +56,35 @@ const WallRow: React.FC<WallRowProps> = ({
   );
 
   useEffect(() => {
-    if (foundationState.wallRowPressedIndex !== wallIndex) {
+    if (heightRowPressedIndex !== heightIndex) {
       growBy(Constants.FULL_SCALE, scale);
     }
-  }, [foundationState.wallRowPressedIndex, wallIndex]);
+  }, [heightRowPressedIndex, heightIndex]);
 
-  const handleWallRowPress = () => {
-    foundationState.setWallRowPressedIndex(wallIndex);
+  const handleHeightRowPress = () => {
     visibilityState.setIsTJointButtonVisible(false);
+    setHeightRowPressedIndex(heightIndex);
     growBy(Constants.MEDIUM_SCALE, scale);
   };
 
-  const handleRemoveWallPress = () => {
+  const handleRemoveHeightPress = () => {
     visibilityState.setIsResultVisible(false);
-    removeWall(wallIndex);
+    removeHeight(height);
   };
 
   return (
-    <Pressable onPress={handleWallRowPress}>
-      <Animated.View style={[styles.wallLengthContainer, animatedStyles]}>
+    <Pressable onPress={handleHeightRowPress}>
+      <Animated.View style={[styles.heightRowContainer, animatedStyles]}>
         <ResponsiveText
-          title={`Mur ${wallIndex + 1} : `}
+          title={`Hauteur ${inchesToFeet(height)} : `}
           size={Constants.FONT_SIZE}
           style={{ textAlign: "left" }}
         />
         <View style={styles.specsAndRemoveContainer}>
-          <View style={styles.wallSpecsContainer}>
-            <View style={[styles.spec, { borderLeftWidth: 0 }]}>
+          <View style={styles.heightSpecsContainer}>
+            <View style={styles.heightTextContainer}>
               <ResponsiveText
-                title={`L : ${inchesToFeet(foundationState.wallLengths[wallIndex])}`}
-                size={Constants.FONT_SIZE}
-                style={{ textAlign: "left" }}
-              />
-            </View>
-
-            <View style={styles.spec}>
-              <ResponsiveText
-                title={`E : ${inchesToFeet(foundationState.concreteWidths[wallIndex])}`}
-                size={Constants.FONT_SIZE}
-                style={{ textAlign: "left" }}
-              />
-            </View>
-
-            <View style={styles.spec}>
-              <ResponsiveText
-                title={`H : ${inchesToFeet(foundationState.wallHeights[wallIndex])}`}
+                title={`Pieds Linéaires : ${inchesToFeet(heights[height][0])}`}
                 size={Constants.FONT_SIZE}
                 style={{ textAlign: "left" }}
               />
@@ -107,7 +99,7 @@ const WallRow: React.FC<WallRowProps> = ({
               maxHeight={Constants.MAX_REMOVE_SIZE}
               maxWidth={Constants.MAX_REMOVE_SIZE}
               style={{ tintColor: "red" }}
-              handlePress={handleRemoveWallPress}
+              handlePress={handleRemoveHeightPress}
             />
           </View>
         </View>
@@ -117,7 +109,7 @@ const WallRow: React.FC<WallRowProps> = ({
 };
 
 const styles = StyleSheet.create({
-  wallLengthContainer: {
+  heightRowContainer: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
@@ -138,18 +130,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
-  wallSpecsContainer: {
+  heightSpecsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "75%",
   },
-  spec: {
+  heightTextContainer: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     paddingRight: 0,
-    borderLeftWidth: 1,
   },
   removeButton: {
     marginLeft: 10,
@@ -158,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(WallRow);
+export default React.memo(HeightRow);

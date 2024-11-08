@@ -1,5 +1,5 @@
 // React imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions, TextInput, StyleSheet, TextStyle, View } from "react-native";
 
 // Utility functions
@@ -9,7 +9,7 @@ import calculateSize from "@/utils/CalculateSize";
 import useDimensionsEffect from "@/hooks/useDimensions";
 
 // Components
-import ResponsiveText from "../ResponsiveText";
+import ResponsiveText from "./ResponsiveText";
 
 // Constants
 import { Constants } from "@/constants";
@@ -18,19 +18,21 @@ interface ResponsiveInputProps {
   title: string;
   size: number;
   input: string;
-  isValid?: boolean;
   inputStyle?: TextStyle | TextStyle[];
+  isValidInput?: boolean; // Allows form to be highlighted if input is missing
   setInput: React.Dispatch<any>;
   validateInput: (input: string) => string | null;
+  setIsValidInput?: React.Dispatch<boolean>; // Allows form to be highlighted if input is missing
 }
 
 const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   title,
   size,
   input,
-  isValid,
   inputStyle,
+  isValidInput = true,
   setInput,
+  setIsValidInput,
   validateInput,
 }) => {
   const [fontSize, setFontSize] = useState<number>(
@@ -46,6 +48,18 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
 
   const [validationMessage, setValidationMessage] = useState<string | null>();
   const [inputColor, setInputColor] = useState<string>("#2e4459");
+  const [borderWidth, setBorderWidth] = useState<number>(0);
+  const [borderColor, setBorderColor] = useState<string>("#2e4459");
+
+  useEffect(() => {
+    if (!isValidInput) {
+      setBorderWidth(1);
+      setBorderColor("red");
+    } else {
+      setBorderWidth(0);
+      setBorderColor("#2e4459");
+    }
+  }, [isValidInput]);
 
   const validate = (input: string) => {
     const message = validateInput(input);
@@ -53,6 +67,7 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
       setInputColor("red");
     } else {
       setInputColor("#2e4459");
+      setIsValidInput ? setIsValidInput(true) : null;
     }
     setValidationMessage(message);
   };
@@ -62,7 +77,8 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
     includeFontPadding: false,
     height: textFontSize * Constants.INPUT_HEIGHT_ADJUSTMENT_FACTOR,
     color: inputColor,
-    borderColor: isValid ? undefined : "red",
+    borderColor: borderColor,
+    borderWidth: borderWidth,
   };
 
   return (
@@ -110,7 +126,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     paddingVertical: 0,
-    textAlignVertical: "center",
+    verticalAlign: "middle",
     width: "100%",
   },
 });
