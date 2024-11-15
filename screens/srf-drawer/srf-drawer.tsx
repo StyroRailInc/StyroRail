@@ -11,7 +11,7 @@ import PanelsDisplay from "@/components/PanelsDisplay";
 import LineDrawer from "@/screens/srf-drawer/components/LineDrawer";
 import WallInput from "@/screens/srf-drawer/components/WallInput";
 import WallRows from "@/screens/srf-drawer/components/WallRows";
-import Form from "@/components/Form";
+import DrawerSendForm from "@/screens/srf-drawer/components/DrawerSendForm";
 import Rooms from "./components/RoomColumns";
 
 // Custom hooks
@@ -191,7 +191,7 @@ const SRFDrawer: React.FC = () => {
           )}
           {visibilityState.isResultVisible && (
             <View style={styles.form}>
-              <Form
+              <DrawerSendForm
                 data={getFormData(foundationState, settingsState)}
                 route={Constants.SEND_EMAIL_URL}
               />

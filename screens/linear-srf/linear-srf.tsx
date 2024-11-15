@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 
 // Components
-import Form from "@/components/Form";
+import DrawerSendForm from "@/screens/srf-drawer/components/DrawerSendForm"; // Same logic so reused SRF-Drawer Model
 import PanelsDisplay from "@/components/PanelsDisplay";
 import ResponsiveText from "@/components/ResponsiveText";
 import ResponsiveButton from "@/components/ResponsiveButton";
@@ -143,7 +143,7 @@ const LinearSRF: React.FC = () => {
           )}
           {visibilityState.isResultVisible && (
             <View style={styles.form}>
-              <Form
+              <DrawerSendForm
                 data={getFormData(
                   settingsState,
                   inputState,

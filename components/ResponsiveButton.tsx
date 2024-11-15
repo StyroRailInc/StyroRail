@@ -74,7 +74,7 @@ const ResponsiveButton: React.FC<ResponsiveButtonProps> = ({
           />
         )}
 
-        {iconName !== undefined && (
+        {iconName && (
           <AntDesign
             name={iconName}
             size={iconSize > Constants.MAX_IMAGE_SIZE ? Constants.MAX_IMAGE_SIZE : iconSize}

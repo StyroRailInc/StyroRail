@@ -11,6 +11,7 @@ import Openings from "./components/Openings";
 import Walls from "./components/Walls";
 import ResponsiveButton from "@/components/ResponsiveButton";
 import BlockDisplay from "./components/BlockDisplay";
+import BBSendForm from "./components/BBSendForm";
 
 // Constants
 import { Constants } from "@/constants";
@@ -152,6 +153,8 @@ const BuildBlock: React.FC = () => {
     }
   };
 
+  const handleSendPress = () => {};
+
   return (
     <View style={styles.pageContainer}>
       <ScrollView
@@ -179,8 +182,9 @@ const BuildBlock: React.FC = () => {
             style={{ margin: 20 }}
             handlePress={validateAndScroll}
           />
-          <ResponsiveButton d />
+
           {isResultVisible && <BlockDisplay house={house} />}
+          {isResultVisible && <BBSendForm />}
         </View>
       </ScrollView>
     </View>
