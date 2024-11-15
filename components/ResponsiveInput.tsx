@@ -21,7 +21,7 @@ interface ResponsiveInputProps {
   inputStyle?: TextStyle | TextStyle[];
   isValidInput?: boolean; // Allows form to be highlighted if input is missing
   setInput: React.Dispatch<any>;
-  validateInput: (input: string) => string | null;
+  validateInput?: (input: string) => string | null;
   setIsValidInput?: React.Dispatch<boolean>; // Allows form to be highlighted if input is missing
 }
 
@@ -29,11 +29,11 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
   title,
   size,
   input,
-  inputStyle,
+  inputStyle = {},
   isValidInput = true,
   setInput,
-  setIsValidInput,
-  validateInput,
+  setIsValidInput = () => {},
+  validateInput = () => null,
 }) => {
   const [fontSize, setFontSize] = useState<number>(
     Math.max(Constants.MIN_FONT_SIZE, calculateSize(Dimensions.get("window").width, size))
@@ -43,60 +43,45 @@ const ResponsiveInput: React.FC<ResponsiveInputProps> = ({
     [setFontSize, (width, size) => calculateSize(width, size), Constants.MIN_FONT_SIZE],
   ]);
 
-  const textFontSize: number =
-    fontSize > Constants.MAX_FONT_SIZE ? Constants.MAX_FONT_SIZE : fontSize;
+  const textFontSize = Math.min(fontSize, Constants.MAX_FONT_SIZE);
 
-  const [validationMessage, setValidationMessage] = useState<string | null>();
-  const [inputColor, setInputColor] = useState<string>("#2e4459");
-  const [borderWidth, setBorderWidth] = useState<number>(0);
-  const [borderColor, setBorderColor] = useState<string>("#2e4459");
+  const [validationMessage, setValidationMessage] = useState<string | null>(null);
+  const [inputStyleState, setInputStyleState] = useState({
+    color: "#2e4459",
+    borderColor: "#2e4459",
+    borderWidth: 0,
+  });
 
   useEffect(() => {
-    if (!isValidInput) {
-      setBorderWidth(1);
-      setBorderColor("red");
-    } else {
-      setBorderWidth(0);
-      setBorderColor("#2e4459");
-    }
+    setInputStyleState((prev) => ({
+      ...prev,
+      borderColor: isValidInput ? "#2e4459" : "red",
+      borderWidth: isValidInput ? 0 : 1,
+    }));
   }, [isValidInput]);
 
   const validate = (input: string) => {
     const message = validateInput(input);
-    if (message) {
-      setInputColor("red");
-    } else {
-      setInputColor("#2e4459");
-      setIsValidInput ? setIsValidInput(true) : null;
-    }
     setValidationMessage(message);
-  };
-
-  const calculatedStyle = {
-    fontSize: textFontSize,
-    includeFontPadding: false,
-    height: textFontSize * Constants.INPUT_HEIGHT_ADJUSTMENT_FACTOR,
-    color: inputColor,
-    borderColor: borderColor,
-    borderWidth: borderWidth,
+    setInputStyleState((prev) => ({
+      ...prev,
+      color: message ? "red" : "#2e4459",
+    }));
+    setIsValidInput(!message);
   };
 
   return (
     <View style={styles.container}>
       <TextInput
-        style={[styles.input, inputStyle, calculatedStyle]}
+        style={[styles.input, inputStyle, { fontSize: textFontSize }, inputStyleState]}
         value={input}
         inputMode="text"
         placeholder={title}
         blurOnSubmit={false}
-        onChangeText={
-          validationMessage
-            ? (text) => {
-                setInput(text);
-                validate(text);
-              }
-            : (text) => setInput(text)
-        }
+        onChangeText={(text) => {
+          setInput(text);
+          if (validationMessage) validate(text);
+        }}
         onBlur={() => validate(input)}
       />
       {validationMessage && (

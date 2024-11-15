@@ -33,6 +33,10 @@ class House {
       this.adjustBlockQuantities(wallBlockQuantities);
     }
   }
+
+  getBlockQuantities() {
+    return this.blockQuantities;
+  }
 }
 
 export default House;

@@ -21,6 +21,9 @@ import {
 // Reducer
 import { initialOpeningState, initialInputState } from "../reducer";
 
+// Utility function
+import { parseInput } from "@/utils/InputParser";
+
 interface WallsProps {
   wallState: WallState;
   openingState: OpeningState;
@@ -38,8 +41,6 @@ const Walls: React.FC<WallsProps> = ({
   openingDispatch,
   inputDispatch,
 }) => {
-  // const pressedWallIndex = useRef(0);
-
   const handleAddWallPress = (index: number) => {
     wallDispatch({
       type: "modifyWall",
@@ -89,7 +90,6 @@ const Walls: React.FC<WallsProps> = ({
   };
 
   useEffect(() => {
-    console.log(initialInputState.isValidHeight);
     updateInputs(wallState.pressedWallIndex);
   }, [wallState.pressedWallIndex]);
 
@@ -103,7 +103,6 @@ const Walls: React.FC<WallsProps> = ({
       },
     });
     wallDispatch({ type: "setPressedWallIndex", payload: index });
-    // updateInputs(index);
   };
 
   useEffect(() => {
@@ -137,7 +136,6 @@ const Walls: React.FC<WallsProps> = ({
     } else {
       wallDispatch({ type: "deleteWall", payload: { index: wallState.pressedWallIndex } });
       wallDispatch({ type: "setPressedWallIndex", payload: wallState.pressedWallIndex - 1 });
-      // updateInputs(wallState.pressedWallIndex - 1);
     }
   };
 

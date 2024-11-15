@@ -10,6 +10,7 @@ import Inputs from "./components/Inputs";
 import Openings from "./components/Openings";
 import Walls from "./components/Walls";
 import ResponsiveButton from "@/components/ResponsiveButton";
+import BlockDisplay from "./components/BlockDisplay";
 
 // Constants
 import { Constants } from "@/constants";
@@ -51,6 +52,7 @@ const BuildBlock: React.FC = () => {
   const [wallState, wallDispatch] = useReducer(wallReducer, initialWallState);
 
   const [isResultVisible, setIsResultVisible] = useState<boolean>(false);
+  const [house, setHouse] = useState<House>();
 
   const scrollViewRef = useRef(null);
 
@@ -94,9 +96,10 @@ const BuildBlock: React.FC = () => {
         wallState.walls[i].inputState.width
       );
       if (!(validatedHeight && validatedLength && validatedWidth)) {
-        break;
+        return;
       }
     }
+    handleCalculatePress();
   };
 
   const handleCalculatePress = () => {
@@ -142,6 +145,8 @@ const BuildBlock: React.FC = () => {
       const house = new House(walls);
       house.computeHouse();
       console.log(house);
+      setHouse(house);
+      setIsResultVisible(true);
     } catch (error) {
       console.error(error);
     }
@@ -174,6 +179,8 @@ const BuildBlock: React.FC = () => {
             style={{ margin: 20 }}
             handlePress={validateAndScroll}
           />
+          <ResponsiveButton d />
+          {isResultVisible && <BlockDisplay house={house} />}
         </View>
       </ScrollView>
     </View>
