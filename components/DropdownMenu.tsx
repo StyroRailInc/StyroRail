@@ -2,13 +2,10 @@
 import React, { useState } from "react";
 import { View, Pressable, StyleSheet, ViewStyle, TextStyle, ScrollView } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-
 // Component
 import ResponsiveText from "@/components/ResponsiveText";
-
 // Constants
 import { Constants } from "@/constants";
-
 interface DropdownMenuProps {
   options: string[];
   selectedOption: string;
@@ -20,29 +17,25 @@ interface DropdownMenuProps {
   onSelect: (option: string) => void;
   setIsDropdownMenuOpen: () => void;
 }
-
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
   options,
   selectedOption,
   fontSize,
   isDropdownMenuOpen,
-  defaultOption = "Select",
+  defaultOption = "Sélectionner",
   textStyle,
   headerStyle,
   onSelect,
   setIsDropdownMenuOpen,
 }) => {
   const [optionHeight, setOptionHeight] = useState<number>(0);
-
   const handleOptionPress = (option: string): void => {
     onSelect(option);
     setIsDropdownMenuOpen();
   };
-
-  const selectedOptionText = selectedOption !== null ? selectedOption : defaultOption;
-
+  const selectedOptionText =
+    selectedOption !== null && selectedOption !== "" ? selectedOption : defaultOption;
   const maxDropdownHeight = Math.min(optionHeight * options.length, optionHeight * 4);
-
   return (
     <View>
       <Pressable
@@ -61,7 +54,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
           size={fontSize}
           style={[textStyle ? textStyle : styles.text]}
         />
-
         <AntDesign
           name={isDropdownMenuOpen ? "up" : "down"}
           size={Constants.UP_ARROW_SIZE}
@@ -70,31 +62,35 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       </Pressable>
       {isDropdownMenuOpen && (
         <View style={[styles.dropdown, { maxHeight: maxDropdownHeight }]}>
-          {options.map((option, index) => {
-            const isSelected = option === selectedOptionText;
-            return !isSelected ? (
-              <Pressable
-                key={index}
-                style={[styles.dropdownOption, headerStyle]}
-                onPress={() => handleOptionPress(option)}
-                onLayout={(event) => {
-                  setOptionHeight(event.nativeEvent.layout.height);
-                }}
-              >
-                <ResponsiveText
-                  title={option}
-                  size={fontSize}
-                  style={[textStyle ? textStyle : styles.text, { color: "white" }]}
-                />
-              </Pressable>
-            ) : null;
-          })}
+          <ScrollView
+            style={[styles.scrollContainer]} // Ensure a max height or flex is provided
+            nestedScrollEnabled={true}
+          >
+            {options.map((option, index) => {
+              const isSelected = option === selectedOptionText;
+              return !isSelected ? (
+                <Pressable
+                  key={index}
+                  style={[styles.dropdownOption, headerStyle]}
+                  onPress={() => handleOptionPress(option)}
+                  onLayout={(event) => {
+                    setOptionHeight(event.nativeEvent.layout.height);
+                  }}
+                >
+                  <ResponsiveText
+                    title={option}
+                    size={fontSize}
+                    style={[textStyle ? textStyle : styles.text, { color: "white" }]}
+                  />
+                </Pressable>
+              ) : null;
+            })}
+          </ScrollView>
         </View>
       )}
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   dropdownHeader: {
     flexDirection: "row",
@@ -112,7 +108,11 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1001,
     backgroundColor: "#fff",
-    overflow: "scroll",
+  },
+  scrollContainer: {
+    flex: 1,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
   dropdownOption: {
     flexDirection: "row",
@@ -131,5 +131,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
 export default DropdownMenu;

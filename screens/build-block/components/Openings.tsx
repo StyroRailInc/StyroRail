@@ -6,6 +6,7 @@ import { View, StyleSheet } from "react-native";
 import ResponsiveInput from "@/components/ResponsiveInput";
 import ResponsiveText from "@/components/ResponsiveText";
 import ResponsiveButton from "@/components/ResponsiveButton";
+import ResponsiveTitle from "@/components/ResponsiveTitle";
 
 // Constants
 import { Constants } from "@/constants";
@@ -33,10 +34,18 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingDispatch }) => 
     });
   };
 
+  const handleDeletePress = () => {
+    if (openingState.openings.length === 1) {
+      openingDispatch({ type: "resetOpening" });
+    } else {
+      openingDispatch({ type: "removeOpening" });
+    }
+  };
+
   return (
     <View style={styles.openingsContainer}>
       <View style={styles.legend}>
-        <ResponsiveText title="Ouvertures" size={Constants.FONT_SIZE} />
+        <ResponsiveTitle title="Ouvertures" size={Constants.MAX_TITLE_SIZE_MEDIUM} />
       </View>
       <View style={styles.titlesContainer}>
         <View style={styles.titleContainer}>
@@ -98,20 +107,37 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingDispatch }) => 
           </View>
         </View>
       ))}
-      <View style={{ width: 100, marginVertical: 10, marginLeft: 20 }}>
-        <ResponsiveButton
-          title={"Ajouter"}
-          size={0}
-          style={{
-            borderRadius: 4,
-            borderWidth: 2,
-            backgroundColor: "white",
-            borderColor: "#00aaef",
-            padding: 5,
-          }}
-          textStyle={{ color: "#2e4459" }}
-          handlePress={handleAddOpeningPress}
-        />
+      <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ width: 100, marginVertical: 10 }}>
+          <ResponsiveButton
+            title={"Ajouter"}
+            size={0}
+            style={{
+              borderRadius: 4,
+              borderWidth: 2,
+              backgroundColor: "white",
+              borderColor: "#00aaef",
+              padding: 5,
+            }}
+            textStyle={{ color: "#2e4459" }}
+            handlePress={handleAddOpeningPress}
+          />
+        </View>
+        <View style={{ width: 100, marginVertical: 10 }}>
+          <ResponsiveButton
+            title={"Supprimer"}
+            size={0}
+            style={{
+              borderRadius: 4,
+              borderWidth: 2,
+              backgroundColor: "white",
+              borderColor: "red",
+              padding: 5,
+            }}
+            textStyle={{ color: "#2e4459" }}
+            handlePress={handleDeletePress}
+          />
+        </View>
       </View>
     </View>
   );
@@ -120,24 +146,18 @@ const Openings: React.FC<OpeningProps> = ({ openingState, openingDispatch }) => 
 const styles = StyleSheet.create({
   openingsContainer: {
     flex: 1,
-    borderWidth: 2,
-    borderRadius: 4,
     width: "100%",
-    marginTop: 20,
   },
   legend: {
-    paddingHorizontal: 2,
-    position: "absolute",
-    top: -15,
-    left: 20,
-    backgroundColor: "#f0f0f0",
+    borderBottomWidth: 2,
+    marginBottom: 20,
+    marginTop: 30,
+    borderColor: "#00aaef",
   },
   titlesContainer: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
-    marginHorizontal: 20,
     marginBottom: -20,
   },
   titleContainer: {
@@ -148,7 +168,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    marginHorizontal: 20,
     marginBottom: 5,
   },
   inputContainer: {

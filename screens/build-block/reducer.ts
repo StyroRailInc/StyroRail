@@ -46,7 +46,7 @@ function inputReducer(state: InputState, action: InputAction): InputState {
 const initialInputState: InputState = {
   length: "",
   height: "",
-  width: "",
+  width: '8"',
   nInsideCorners: "",
   nOutsideCorners: "",
   n45InsideCorners: "",
@@ -71,10 +71,7 @@ function openingReducer(state: OpeningState, action: OpeningAction) {
     case "removeOpening":
       return {
         ...state,
-        openings: [
-          ...state.openings.slice(0, action.payload),
-          ...state.openings.slice(action.payload + 1),
-        ],
+        openings: [...state.openings.slice(0, state.openings.length - 1)],
       };
     case "modifyOpening":
       return {
@@ -114,6 +111,12 @@ function openingReducer(state: OpeningState, action: OpeningAction) {
       return {
         ...state,
         openings: updatedOpenings,
+      };
+    }
+
+    case "resetOpening": {
+      return {
+        ...initialOpeningState,
       };
     }
 

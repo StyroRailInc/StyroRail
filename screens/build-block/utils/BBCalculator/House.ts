@@ -1,26 +1,52 @@
 // Type
 import Wall from "./Wall";
-import { BlockType } from "../../types/BBTypes";
+import { BlockType, Width } from "../../types/BBTypes";
 
 class House {
   private walls: Wall[];
 
-  private blockQuantities: Record<BlockType, number> = {
-    straight: 0,
-    ninetyCorner: 0,
-    fortyFiveCorner: 0,
-    doubleTaperTop: 0,
-    brickLedge: 0,
-    buck: 0,
+  private blockQuantities: Record<Width, Record<BlockType, number>> = {
+    '8"': {
+      straight: 0,
+      ninetyCorner: 0,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 0,
+      buck: 0,
+    },
+    '6"': {
+      straight: 0,
+      ninetyCorner: 0,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 0,
+      buck: 0,
+    },
+    '4"': {
+      straight: 0,
+      ninetyCorner: 0,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 0,
+      buck: 0,
+    },
   };
 
-  private adjustBlockQuantities(blockQuantities: Record<BlockType, number>) {
-    this.blockQuantities["straight"] += blockQuantities["straight"];
-    this.blockQuantities["ninetyCorner"] += blockQuantities["ninetyCorner"];
-    this.blockQuantities["fortyFiveCorner"] += blockQuantities["fortyFiveCorner"];
-    this.blockQuantities["doubleTaperTop"] += blockQuantities["doubleTaperTop"];
-    this.blockQuantities["brickLedge"] += blockQuantities["brickLedge"];
-    this.blockQuantities["buck"] += blockQuantities["buck"];
+  private adjustBlockQuantities(blockQuantities: {
+    width: Width;
+    blockQuantities: Record<BlockType, number>;
+  }) {
+    this.blockQuantities[blockQuantities.width]["straight"] +=
+      blockQuantities.blockQuantities["straight"];
+    this.blockQuantities[blockQuantities.width]["ninetyCorner"] +=
+      blockQuantities.blockQuantities["ninetyCorner"];
+    this.blockQuantities[blockQuantities.width]["fortyFiveCorner"] +=
+      blockQuantities.blockQuantities["fortyFiveCorner"];
+    this.blockQuantities[blockQuantities.width]["doubleTaperTop"] +=
+      blockQuantities.blockQuantities["doubleTaperTop"];
+    this.blockQuantities[blockQuantities.width]["brickLedge"] +=
+      blockQuantities.blockQuantities["brickLedge"];
+    this.blockQuantities[blockQuantities.width]["buck"] += blockQuantities.blockQuantities["buck"];
   }
 
   constructor(walls: Wall[]) {

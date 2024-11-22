@@ -67,12 +67,13 @@ export type OpeningAction =
   | { type: "setOpeningWidth"; payload: string }
   | { type: "setOpeningQuantity"; payload: string }
   | { type: "addOpening"; payload: { width: string; height: string; quantity: string } }
-  | { type: "removeOpening"; payload: number }
+  | { type: "removeOpening" }
   | {
       type: "modifyOpening";
       payload: { index: number; attribute: "width" | "height" | "quantity"; value: string };
     }
-  | { type: "setOpenings"; payload: OpeningState };
+  | { type: "setOpenings"; payload: OpeningState }
+  | { type: "resetOpening" };
 
 export type WallState = {
   walls: { inputState: InputState; openingState: OpeningState }[];

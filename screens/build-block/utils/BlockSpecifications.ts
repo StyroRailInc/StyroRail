@@ -97,6 +97,14 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
     },
   },
   doubleTaperTop: {
+    '4"': {
+      length: { ext: 0, int: 0 },
+      width: 0,
+      height: 0,
+      concreteVolume: 0,
+      surfaceArea: { ext: 0, int: 0 },
+      qtyPerBundle: 0,
+    },
     '6"': {
       length: { ext: 48, int: 48 },
       width: 11,
@@ -115,6 +123,14 @@ const blockSpecifications: Record<BlockType, Record<string, BlockSpecification>>
     },
   },
   brickLedge: {
+    '4"': {
+      length: { ext: 0, int: 0 },
+      width: 0,
+      height: 0,
+      concreteVolume: 0,
+      surfaceArea: { ext: 0, int: 0 },
+      qtyPerBundle: 0,
+    },
     '6"': {
       length: { ext: 48, int: 48 },
       width: 11,

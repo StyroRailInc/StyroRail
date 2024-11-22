@@ -14,6 +14,7 @@ class SpecialBlockBase {
   }
 
   getSurfaceArea(blockType: BlockType) {
+    console.log(this.width);
     return getBlockSpecifications(blockType, this.width).height * this.length;
   }
 

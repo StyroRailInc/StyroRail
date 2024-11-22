@@ -18,6 +18,10 @@ const Constants = {
   MIN_TITLE_SIZE: 28,
   MAX_TITLE_SIZE: 42,
 
+  // Title size constants
+  MIN_TITLE_SIZE_MEDIUM: 16,
+  MAX_TITLE_SIZE_MEDIUM: 22,
+
   // Image constants
   IMAGE_SIZE: 12,
   ARROW_SIZE: 12,

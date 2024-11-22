@@ -1,5 +1,5 @@
 // React imports
-import React, { useState, useReducer, useRef } from "react";
+import React, { useState, useReducer, useRef, useEffect } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 
 // Custom hooks
@@ -36,7 +36,7 @@ import {
 
 // Utility functions
 import { parseInput, parseIntegerInput } from "@/utils/InputParser";
-import { InputAction } from "./types/BBTypes";
+import { InputAction, Width } from "./types/BBTypes";
 
 // Helper functions
 // import { validateInput } from "./helpers";
@@ -112,22 +112,23 @@ const BuildBlock: React.FC = () => {
         const dimensions = new Dimensions(
           parseInput(wall.inputState.height, isFeet, !emptyStringIsValid),
           parseInput(wall.inputState.length, isFeet, !emptyStringIsValid),
-          '8"'
+          wall.inputState.width as Width
         );
+        console.log(dimensions.getWidth());
 
         const corners = new Corners(
           parseIntegerInput(wall.inputState.nInsideCorners),
           parseIntegerInput(wall.inputState.nOutsideCorners),
           parseIntegerInput(wall.inputState.n45InsideCorners),
           parseIntegerInput(wall.inputState.n45OutsideCorners),
-          '8"'
+          wall.inputState.width as Width
         );
 
         const specialBlocks = new SpecialBlocks(
           parseInput(wall.inputState.doubleTaperTopLength, isFeet, emptyStringIsValid),
           parseInput(wall.inputState.brickLedgeLength, isFeet, emptyStringIsValid),
           0,
-          '8"'
+          wall.inputState.width as Width
         );
 
         const openings = [];
@@ -148,6 +149,11 @@ const BuildBlock: React.FC = () => {
       console.log(house);
       setHouse(house);
       setIsResultVisible(true);
+
+      // Delay scrolling until after layout rendering
+      setTimeout(() => {
+        scrollViewRef.current.scrollToEnd({ animated: true });
+      }, 0);
     } catch (error) {
       console.error(error);
     }

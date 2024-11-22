@@ -184,8 +184,13 @@ const Walls: React.FC<WallsProps> = ({
           handlePress={() => handleAddWallPress(wallState.walls.length)}
         />
       </View>
-      <View style={{ position: "absolute", right: 10 }}>
-        <ResponsiveButton title="-" size={Constants.FONT_SIZE} handlePress={handleDeletePress} />
+      <View style={{ position: "absolute", right: 10, width: 20 }}>
+        <ResponsiveButton
+          title="-"
+          size={Constants.FONT_SIZE}
+          handlePress={handleDeletePress}
+          style={{ backgroundColor: "red" }}
+        />
       </View>
     </View>
   );

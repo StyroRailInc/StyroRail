@@ -10,6 +10,9 @@ import Opening from "./Opening";
 import Corners from "./Corners";
 import SpecialBlocks from "./SpecialBlocks";
 
+// Type
+import { Width } from "../../types/BBTypes";
+
 class Wall {
   private dimensions: Dimensions;
   private corners: Corners;
@@ -29,7 +32,7 @@ class Wall {
     this.openings = openings;
   }
 
-  computeWall(): Record<BlockType, number> {
+  computeWall(): { width: Width; blockQuantities: Record<BlockType, number> } {
     this.nCourses = this.dimensions.getNCourses();
     let remainingSurfaceArea = this.dimensions.getSurfaceArea();
     let openingPerimeter = 0;
@@ -55,7 +58,7 @@ class Wall {
       buck: this.specialBlocks.getTotalBuck(),
     };
 
-    return blockQuantities;
+    return { width: this.dimensions.getWidth(), blockQuantities: blockQuantities };
   }
 }
 

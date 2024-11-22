@@ -83,6 +83,12 @@ export enum AdjustmentFormula {
   NONE,
 }
 
+export enum BlockWidth {
+  EIGHT = '8"',
+  SIX = '6"',
+  FOUR = '4"',
+}
+
 export function stringToEnum<T>(enumObj: T, value: string): T[keyof T] {
   return value as T[keyof T];
 }

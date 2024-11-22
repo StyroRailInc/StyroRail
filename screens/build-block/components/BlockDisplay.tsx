@@ -30,27 +30,26 @@ const BlockDisplay: React.FC<BlockDisplayProps> = ({ house, style }) => {
         <View style={styles.title}>
           <ResponsiveText title="Résultats : " size={Constants.FONT_SIZE} />
         </View>
-        <View style={styles.results}>
-          <View style={styles.resultsContainer}>
-            <View style={{ alignItems: "center" }}>
-              <ResponsiveText title={`Blocs :`} size={Constants.FONT_SIZE} />
-            </View>
-            <View style={styles.resultsContent}>
-              {Object.entries(house.getBlockQuantities()).map(([blocks, quantity]) => {
-                if (quantity !== 0) {
-                  return (
+        {Object.entries(house.getBlockQuantities()).map(([width, blocks]) => (
+          <View key={`width-${width}`} style={styles.results}>
+            <View style={styles.resultsContainer}>
+              <View style={{ alignItems: "center" }}>
+                <ResponsiveText title={`Largeur : ${width}`} size={Constants.FONT_SIZE} />
+              </View>
+              <View style={styles.resultsContent}>
+                {Object.entries(blocks).map(([block, quantity]) =>
+                  quantity !== 0 && !Number.isNaN(quantity) ? (
                     <ResponsiveText
-                      key={`${blocks}`}
-                      title={`${blocks}: ${quantity}`}
+                      key={`${block}`}
+                      title={`${block}: ${quantity}`}
                       size={Constants.FONT_SIZE}
                     />
-                  );
-                }
-                return null;
-              })}
+                  ) : null
+                )}
+              </View>
             </View>
           </View>
-        </View>
+        ))}
       </View>
     </Animated.View>
   );
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",
-    marginTop: 10,
+    marginTop: 0,
     marginBottom: 10,
     backgroundColor: "#fff",
     width: "100%",
@@ -91,8 +90,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     height: "100%",
-    justifyContent: "center",
-    width: "70%",
   },
   resultsContainer: {
     marginTop: 10,

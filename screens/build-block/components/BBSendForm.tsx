@@ -16,10 +16,11 @@ const BBSendForm: React.FC<BBSendFormProps> = () => {
     <FormModal
       buttonTitle="Envoyer"
       modalTitle="Formulaire"
+      buttonStyle={{ marginTop: 10 }}
       modalStyle={{ width: "30%" }}
       handleSubmit={handleSubmit}
     >
-      <ResponsiveButton title="Hi" size={Constants.FONT_SIZE} handlePress={() => {}} />
+      {/* <ResponsiveButton title="Hi" size={Constants.FONT_SIZE} handlePress={() => {}} /> */}
     </FormModal>
   );
 };
