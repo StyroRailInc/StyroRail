@@ -32,9 +32,12 @@ class House {
     },
   };
 
+  private concreteVolume = 0;
+
   private adjustBlockQuantities(blockQuantities: {
     width: Width;
     blockQuantities: Record<BlockType, number>;
+    concreteVolume: number;
   }) {
     this.blockQuantities[blockQuantities.width]["straight"] +=
       blockQuantities.blockQuantities["straight"];
@@ -47,6 +50,7 @@ class House {
     this.blockQuantities[blockQuantities.width]["brickLedge"] +=
       blockQuantities.blockQuantities["brickLedge"];
     this.blockQuantities[blockQuantities.width]["buck"] += blockQuantities.blockQuantities["buck"];
+    this.concreteVolume += blockQuantities.concreteVolume * 0.7645; // Can be improved
   }
 
   constructor(walls: Wall[]) {

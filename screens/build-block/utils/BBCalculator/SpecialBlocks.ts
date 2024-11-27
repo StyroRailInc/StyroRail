@@ -14,7 +14,6 @@ class SpecialBlockBase {
   }
 
   getSurfaceArea(blockType: BlockType) {
-    console.log(this.width);
     return getBlockSpecifications(blockType, this.width).height * this.length;
   }
 
@@ -28,6 +27,10 @@ class SpecialBlockBase {
 
   setLength(length: number) {
     this.length = length;
+  }
+
+  getConcreteVolume(blockType: BlockType) {
+    return getBlockSpecifications(blockType, this.width).concreteVolume;
   }
 }
 
@@ -43,6 +46,10 @@ class BrickLedge extends SpecialBlockBase {
   getBlockSurfaceArea() {
     return super.getBlockSurfaceArea("brickLedge");
   }
+
+  getConcreteVolume() {
+    return super.getConcreteVolume("brickLedge");
+  }
 }
 
 class DoubleTaperTop extends SpecialBlockBase {
@@ -56,6 +63,10 @@ class DoubleTaperTop extends SpecialBlockBase {
 
   getBlockSurfaceArea() {
     return super.getBlockSurfaceArea("doubleTaperTop");
+  }
+
+  getConcreteVolume() {
+    return super.getConcreteVolume("doubleTaperTop");
   }
 }
 
@@ -109,6 +120,10 @@ class SpecialBlocks {
 
   setBuckLength(length: number) {
     this.buck.setLength(length);
+  }
+
+  getTotalConcreteVolume() {
+    return this.doubleTaperTop.getConcreteVolume() + this.brickLedge.getConcreteVolume();
   }
 }
 

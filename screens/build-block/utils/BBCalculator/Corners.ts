@@ -21,6 +21,10 @@ class CornerBase {
     return this.nOutside * getBlockSpecifications(blockType, this.width).surfaceArea.ext;
   }
 
+  getConcreteVolume(blockType: BlockType) {
+    return this.getTotal() * getBlockSpecifications(blockType, this.width).concreteVolume;
+  }
+
   getTotalSurfaceArea(blockType: BlockType) {
     return this.getInsideSurfaceArea(blockType) + this.getOutsideSurfaceArea(blockType);
   }
@@ -38,6 +42,10 @@ class NinetyDegreeCorner extends CornerBase {
   getTotalSurfaceArea() {
     return super.getTotalSurfaceArea("ninetyCorner");
   }
+
+  getConcreteVolume() {
+    return super.getConcreteVolume("ninetyCorner");
+  }
 }
 
 class FortyFiveDegreeCorner extends CornerBase {
@@ -47,6 +55,10 @@ class FortyFiveDegreeCorner extends CornerBase {
 
   getTotalSurfaceArea() {
     return super.getTotalSurfaceArea("fortyFiveCorner");
+  }
+
+  getConcreteVolume() {
+    return super.getConcreteVolume("fortyFiveCorner");
   }
 }
 
@@ -69,6 +81,12 @@ class Corners {
     return (
       this.ninetyDegreeCorner.getTotalSurfaceArea() +
       this.fortyFiveDegreeCorner.getTotalSurfaceArea()
+    );
+  }
+
+  getTotalConcreteVolume() {
+    return (
+      this.ninetyDegreeCorner.getConcreteVolume() + this.fortyFiveDegreeCorner.getConcreteVolume()
     );
   }
 

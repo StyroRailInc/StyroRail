@@ -16,6 +16,7 @@ class Dimensions {
   }
 
   getSurfaceArea(): number {
+    console.log(this.height, this.length);
     return this.height * this.length;
   }
 
