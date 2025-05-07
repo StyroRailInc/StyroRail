@@ -114,7 +114,6 @@ const BuildBlock: React.FC = () => {
           parseInput(wall.inputState.length, isFeet, !emptyStringIsValid),
           wall.inputState.width as Width
         );
-        console.log(dimensions.getWidth());
 
         const corners = new Corners(
           parseIntegerInput(wall.inputState.nInsideCorners),

@@ -3,6 +3,7 @@ import Dimensions from "@/screens/build-block/utils/BBCalculator/Dimensions";
 import Opening from "@/screens/build-block/utils/BBCalculator/Opening";
 import SpecialBlocks from "@/screens/build-block/utils/BBCalculator/SpecialBlocks";
 import Wall from "@/screens/build-block/utils/BBCalculator/Wall";
+import House from "@/screens/build-block/utils/BBCalculator/House";
 
 describe("Wall - computeWall method", () => {
   let wall: Wall;
@@ -10,6 +11,7 @@ describe("Wall - computeWall method", () => {
   let corners: Corners;
   let specialBlocks: SpecialBlocks;
   let openings: Opening[];
+  let house: House;
 
   beforeEach(() => {
     // Create a new Wall instance for each test
@@ -33,7 +35,7 @@ describe("Wall - computeWall method", () => {
       buck: 0,
     };
 
-    expect(blockQuantities).toEqual(expectedBlockQuantities);
+    expect(blockQuantities.blockQuantities).toEqual(expectedBlockQuantities);
   });
 
   it("should correctly compute quantities for brickledge", () => {
@@ -54,7 +56,7 @@ describe("Wall - computeWall method", () => {
       buck: 0,
     };
 
-    expect(blockQuantities).toEqual(expectedBlockQuantities);
+    expect(blockQuantities.blockQuantities).toEqual(expectedBlockQuantities);
   });
 
   it("should correctly compute quantities for openings", () => {
@@ -75,6 +77,31 @@ describe("Wall - computeWall method", () => {
       buck: 21,
     };
 
-    expect(blockQuantities).toEqual(expectedBlockQuantities);
+    expect(blockQuantities.blockQuantities).toEqual(expectedBlockQuantities);
+  });
+
+  it("should correctly compute quantities for a full house", () => {
+    dimensions = new Dimensions(112, 3276, '8"');
+    corners = new Corners(10, 0, 0, 0, '8"');
+    specialBlocks = new SpecialBlocks(0, 0, 0, '8"');
+    openings = [];
+    wall = new Wall(dimensions, corners, specialBlocks, openings);
+    house = new House([wall]);
+
+    house.computeHouse();
+
+    const blockQuantities = house.getBlockQuantities();
+
+    const expectedBlockQuantities = {
+      straight: 432,
+      ninetyCorner: 70,
+      fortyFiveCorner: 0,
+      doubleTaperTop: 0,
+      brickLedge: 0,
+      buck: 0,
+    };
+
+    expect(dimensions.getSurfaceArea()).toEqual(366912);
+    expect(blockQuantities['8"']).toEqual(expectedBlockQuantities);
   });
 });
