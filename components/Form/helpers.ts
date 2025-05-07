@@ -27,30 +27,38 @@ export const sendForm = async (data: string, route: string): Promise<void> => {
       }
       return response.json();
     })
-    .then((data) => {})
+    .then((data) => {
+      const byteArray = Uint8Array.from(atob(JSON.parse(data.body).buffer), (c) => c.charCodeAt(0));
+      const blob = new Blob([byteArray], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "rapport_srf.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 };
 
 export const getFormworkerNames = (formDataState: FormDataState) => {
-  return formDataState.formworkersData
-    .map((formworker) => formworker.Name)
-    .sort((a: string, b: string) => a.localeCompare(b));
+  return formDataState.formworkersData.map((formworker) => formworker.Name).sort((a: string, b: string) => a.localeCompare(b));
 };
 
 export const getSelectedFormworkerData = (formDataState: FormDataState) => {
-  return formDataState.formworkersData.find(
-    (formworker) => formworker.Name === formDataState.selectedFormworker
-  ) as unknown as string;
+  return formDataState.formworkersData.find((formworker) => formworker.Name === formDataState.selectedFormworker) as unknown as string;
 };
 
 export const getShapeHeights = (formData: FormDataState): string[] => {
   if (formData.selectedFormworkerData && formData.selectedFormworkerData.Shapes) {
     // Extract the heights and remove duplicates using Set
-    const uniqueHeights = [
-      ...new Set(formData.selectedFormworkerData.Shapes.map((shape) => shape.Height)),
-    ];
+    const uniqueHeights = [...new Set(formData.selectedFormworkerData.Shapes.map((shape) => shape.Height))];
     return uniqueHeights as string[];
   }
 
@@ -59,9 +67,7 @@ export const getShapeHeights = (formData: FormDataState): string[] => {
 
 export const getNumberOfBars = (formData: FormDataState): string[] => {
   if (formData.selectedFormworkerData && formData.selectedFormworkerData.Shapes) {
-    return formData.selectedFormworkerData.Shapes.filter(
-      (shape) => shape.Height == formData.selectedShapeHeight
-    ).map((shape) => {
+    return formData.selectedFormworkerData.Shapes.filter((shape) => shape.Height == formData.selectedShapeHeight).map((shape) => {
       return shape.Bars;
     });
   }
@@ -72,8 +78,7 @@ export const getNumberOfBars = (formData: FormDataState): string[] => {
 export const getConfiguration = (formData: FormDataState): string => {
   if (formData.selectedFormworkerData && formData.selectedFormworkerData.Shapes) {
     return formData.selectedFormworkerData.Shapes.filter(
-      (shape) =>
-        shape.Height == formData.selectedShapeHeight && shape.Bars == formData.selectedNumberOfBars
+      (shape) => shape.Height == formData.selectedShapeHeight && shape.Bars == formData.selectedNumberOfBars
     ).map((shape) => {
       return shape.Congiguration; // Typo in database
     });
@@ -85,8 +90,7 @@ export const getConfiguration = (formData: FormDataState): string => {
 export const getClip = (formData: FormDataState): string => {
   if (formData.selectedFormworkerData && formData.selectedFormworkerData.Shapes) {
     return formData.selectedFormworkerData.Shapes.filter(
-      (shape) =>
-        shape.Height == formData.selectedShapeHeight && shape.Bars == formData.selectedNumberOfBars
+      (shape) => shape.Height == formData.selectedShapeHeight && shape.Bars == formData.selectedNumberOfBars
     ).map((shape) => {
       return shape.Clip;
     });
